@@ -7,6 +7,8 @@ import ClientPortal from "./components/ClientPortal";
 import AdminConsole from "./components/AdminConsole";
 import ApplicationModal from "./components/ApplicationModal";
 import DataManagementModal from "./components/DataManagementModal";
+import AuthModal from "./components/AuthModal";
+import UserProfileModal from "./components/UserProfileModal";
 
 const API_BASE = "http://localhost:5001/api";
 
@@ -18,10 +20,22 @@ function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark");
   const [toast, setToast] = useState({ message: "", type: "info" });
 
+  // Auth & Profile State
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem("user");
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
   // Modal States
   const [isAppModalOpen, setIsAppModalOpen] = useState(false);
   const [editingApp, setEditingApp] = useState(null);
   const [isDataModalOpen, setIsDataModalOpen] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
   // Sync Theme attribute
   useEffect(() => {
@@ -34,10 +48,21 @@ function App() {
     setTimeout(() => setToast({ message: "", type: "info" }), 3500);
   };
 
+  // Auth Header Helper
+  const getAuthHeaders = () => {
+    const headers = { "Content-Type": "application/json" };
+    if (currentUser && currentUser.token) {
+      headers["Authorization"] = `Bearer ${currentUser.token}`;
+    }
+    return headers;
+  };
+
   // Fetch Applications
   const loadApplications = async () => {
     try {
-      const res = await fetch(`${API_BASE}/applications`);
+      const res = await fetch(`${API_BASE}/applications`, {
+        headers: getAuthHeaders()
+      });
       if (!res.ok) throw new Error("Failed to fetch applications");
       const data = await res.json();
       setApplications(data);
@@ -48,7 +73,44 @@ function App() {
 
   useEffect(() => {
     loadApplications();
-  }, []);
+  }, [currentUser]);
+
+  // Auth Login / Register Handlers
+  const handleLoginSuccess = (userData) => {
+    setCurrentUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+    showToast(`Welcome back, ${userData.name}!`, "info");
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    localStorage.removeItem("user");
+    setPortalMode("client");
+    showToast("Signed out successfully.", "info");
+  };
+
+  // Update Client Profile (Photo, Email, Phone, Bio, Resume)
+  const handleUpdateProfile = async (updatedFields) => {
+    try {
+      const res = await fetch(`${API_BASE}/auth/profile`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify(updatedFields)
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to update profile");
+      }
+
+      const updatedUser = await res.json();
+      setCurrentUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      showToast("Profile details updated successfully!", "info");
+    } catch (err) {
+      showToast(err.message, "error");
+    }
+  };
 
   // Filtered Applications for Search
   const filteredApplications = applications.filter((app) => {
@@ -71,7 +133,7 @@ function App() {
     try {
       const res = await fetch(`${API_BASE}/applications/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify({ status: newStatus })
       });
 
@@ -96,7 +158,7 @@ function App() {
 
       const res = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify(formData)
       });
 
@@ -127,7 +189,7 @@ function App() {
     try {
       const res = await fetch(`${API_BASE}/applications`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify(newAppData)
       });
       if (!res.ok) throw new Error("Failed to submit application");
@@ -144,7 +206,10 @@ function App() {
     if (!window.confirm("Are you sure you want to delete this application?")) return;
 
     try {
-      const res = await fetch(`${API_BASE}/applications/${id}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE}/applications/${id}`, {
+        method: "DELETE",
+        headers: getAuthHeaders()
+      });
       if (!res.ok) throw new Error("Delete failed");
 
       setApplications((prev) => prev.filter((app) => app._id !== id));
@@ -157,7 +222,10 @@ function App() {
   // Seed Sample Demo Data
   const handleSeedData = async () => {
     try {
-      const res = await fetch(`${API_BASE}/sample/seed`, { method: "POST" });
+      const res = await fetch(`${API_BASE}/sample/seed`, {
+        method: "POST",
+        headers: getAuthHeaders()
+      });
       if (!res.ok) throw new Error("Seeding failed");
       const data = await res.json();
       setApplications(data.data);
@@ -172,7 +240,7 @@ function App() {
     try {
       const res = await fetch(`${API_BASE}/applications/batch`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         body: JSON.stringify(importedApps)
       });
       if (!res.ok) throw new Error("CSV import failed");
@@ -187,7 +255,10 @@ function App() {
   // Clear All Applications
   const handleClearAll = async () => {
     try {
-      const res = await fetch(`${API_BASE}/applications`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE}/applications`, {
+        method: "DELETE",
+        headers: getAuthHeaders()
+      });
       if (!res.ok) throw new Error("Bulk delete failed");
       setApplications([]);
       showToast("All applications cleared.", "info");
@@ -220,6 +291,10 @@ function App() {
         setSearchQuery={setSearchQuery}
         theme={theme}
         toggleTheme={toggleTheme}
+        currentUser={currentUser}
+        onOpenAuthModal={() => setIsAuthModalOpen(true)}
+        onOpenProfileModal={() => setIsProfileModalOpen(true)}
+        onLogout={handleLogout}
         onOpenCreateModal={() => {
           setEditingApp(null);
           setIsAppModalOpen(true);
@@ -258,6 +333,20 @@ function App() {
       </main>
 
       {/* Modals */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onLoginSuccess={handleLoginSuccess}
+        onRegisterSuccess={handleLoginSuccess}
+      />
+
+      <UserProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        currentUser={currentUser}
+        onUpdateProfile={handleUpdateProfile}
+      />
+
       <ApplicationModal
         isOpen={isAppModalOpen}
         onClose={() => {

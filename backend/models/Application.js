@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const interviewRoundSchema = new mongoose.Schema({
-  title: { type: String, default: "" }, // e.g. "Recruiter Screen", "Technical Round 1"
+  title: { type: String, default: "" },
   date: { type: Date },
   completed: { type: Boolean, default: false },
   notes: { type: String, default: "" }
@@ -14,6 +14,10 @@ const checklistItemSchema = new mongoose.Schema({
 
 const applicationSchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     company: {
       type: String,
       required: true,

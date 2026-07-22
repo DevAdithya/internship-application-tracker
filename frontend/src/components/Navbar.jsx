@@ -8,7 +8,11 @@ import {
   Moon, 
   Plus, 
   Sparkles, 
-  Database 
+  Database,
+  LogIn,
+  LogOut,
+  User,
+  Lock
 } from "lucide-react";
 
 export default function Navbar({
@@ -18,11 +22,27 @@ export default function Navbar({
   setSearchQuery,
   theme,
   toggleTheme,
+  currentUser,
+  onOpenAuthModal,
+  onOpenProfileModal,
+  onLogout,
   onOpenCreateModal,
   onOpenDataModal,
   onSeedData,
   totalCount
 }) {
+  const isAdmin = currentUser && currentUser.role === "admin";
+
+  const handleAdminToggleClick = () => {
+    if (!currentUser) {
+      onOpenAuthModal();
+    } else if (!isAdmin) {
+      alert("Access Restricted: Admin Console requires an Account with Admin privileges. Please sign in with an Admin account.");
+    } else {
+      setPortalMode("admin");
+    }
+  };
+
   return (
     <header className="navbar-container glass-panel">
       <div className="navbar-left">
@@ -51,9 +71,10 @@ export default function Navbar({
 
           <button
             className={`portal-btn ${portalMode === "admin" ? "active admin-mode" : ""}`}
-            onClick={() => setPortalMode("admin")}
+            onClick={handleAdminToggleClick}
+            title={!isAdmin ? "Restricted to Admin accounts" : "Admin Console"}
           >
-            <ShieldCheck size={16} />
+            {isAdmin ? <ShieldCheck size={16} /> : <Lock size={14} />}
             <span>Admin Console</span>
           </button>
         </div>
@@ -77,12 +98,29 @@ export default function Navbar({
           )}
         </div>
 
-        {/* Action Buttons */}
-        <button
-          className="action-btn icon-only-btn"
-          onClick={onOpenDataModal}
-          title="Data Management (CSV / Backup)"
-        >
+        {/* User Auth / Profile Badge */}
+        {currentUser ? (
+          <div className="user-profile-badge glass-card" onClick={onOpenProfileModal}>
+            <img src={currentUser.avatar} alt="User Avatar" className="user-nav-avatar" />
+            <div className="user-nav-text">
+              <span className="user-nav-name">{currentUser.name}</span>
+              <span className="user-nav-role">{currentUser.role === "admin" ? "Admin" : "Client"}</span>
+            </div>
+          </div>
+        ) : (
+          <button className="btn btn-secondary nav-login-btn" onClick={onOpenAuthModal}>
+            <LogIn size={16} />
+            <span>Sign In</span>
+          </button>
+        )}
+
+        {currentUser && (
+          <button className="action-btn icon-only-btn danger-hover" onClick={onLogout} title="Sign Out">
+            <LogOut size={18} />
+          </button>
+        )}
+
+        <button className="action-btn icon-only-btn" onClick={onOpenDataModal} title="Data Management">
           <Database size={18} />
         </button>
 

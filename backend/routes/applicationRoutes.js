@@ -1,13 +1,19 @@
 import express from "express";
 import Application from "../models/Application.js";
+import { optionalProtect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-// Get all applications (with optional search and status filtering)
-router.get("/", async (req, res) => {
+// Get all applications (Client gets their own, Admin gets all)
+router.get("/", optionalProtect, async (req, res) => {
   try {
-    const { status, search, sortBy } = req.query;
+    const { status, search, sortBy, viewAll } = req.query;
     let query = {};
+
+    // Data isolation: If user is logged in as a client and not asking for public job directory, filter by userId
+    if (req.user && req.user.role !== "admin" && viewAll !== "true") {
+      query.$or = [{ userId: req.user._id }, { userId: { $exists: false } }];
+    }
 
     if (status && status !== "All") {
       query.status = status;
@@ -15,13 +21,20 @@ router.get("/", async (req, res) => {
 
     if (search) {
       const searchRegex = new RegExp(search, "i");
-      query.$or = [
+      const searchConditions = [
         { company: searchRegex },
         { position: searchRegex },
         { location: searchRegex },
         { notes: searchRegex },
         { tags: searchRegex },
       ];
+
+      if (query.$or) {
+        query.$and = [{ $or: query.$or }, { $or: searchConditions }];
+        delete query.$or;
+      } else {
+        query.$or = searchConditions;
+      }
     }
 
     let sortOption = { createdAt: -1 };
@@ -50,9 +63,13 @@ router.get("/:id", async (req, res) => {
 });
 
 // Create an application
-router.post("/", async (req, res) => {
+router.post("/", optionalProtect, async (req, res) => {
   try {
-    const application = await Application.create(req.body);
+    const payload = { ...req.body };
+    if (req.user) {
+      payload.userId = req.user._id;
+    }
+    const application = await Application.create(payload);
     res.status(201).json(application);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -60,20 +77,24 @@ router.post("/", async (req, res) => {
 });
 
 // Batch create applications (used for CSV import / seeding)
-router.post("/batch", async (req, res) => {
+router.post("/batch", optionalProtect, async (req, res) => {
   try {
     const applications = req.body;
     if (!Array.isArray(applications)) {
       return res.status(400).json({ message: "Request body must be an array" });
     }
-    const created = await Application.insertMany(applications);
+    const prepared = applications.map((app) => ({
+      ...app,
+      userId: req.user ? req.user._id : app.userId,
+    }));
+    const created = await Application.insertMany(prepared);
     res.status(201).json(created);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
 
-// Update an application (e.g. quick status update or edit modal)
+// Update an application
 router.put("/:id", async (req, res) => {
   try {
     const application = await Application.findByIdAndUpdate(
