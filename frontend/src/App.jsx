@@ -1,165 +1,282 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import "./index.css";
 import "./App.css";
 
-const API_URL = "http://localhost:5001/api/applications";
+import Navbar from "./components/Navbar";
+import ClientPortal from "./components/ClientPortal";
+import AdminConsole from "./components/AdminConsole";
+import ApplicationModal from "./components/ApplicationModal";
+import DataManagementModal from "./components/DataManagementModal";
+
+const API_BASE = "http://localhost:5001/api";
 
 function App() {
+  const [portalMode, setPortalMode] = useState("client"); // "client" | "admin"
+  const [adminViewMode, setAdminViewMode] = useState("kanban"); // "kanban" | "table" | "analytics"
   const [applications, setApplications] = useState([]);
-  const [message, setMessage] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark");
+  const [toast, setToast] = useState({ message: "", type: "info" });
 
+  // Modal States
+  const [isAppModalOpen, setIsAppModalOpen] = useState(false);
+  const [editingApp, setEditingApp] = useState(null);
+  const [isDataModalOpen, setIsDataModalOpen] = useState(false);
+
+  // Sync Theme attribute
   useEffect(() => {
-    const loadApplications = async () => {
-      try {
-        const response = await fetch(API_URL);
-        const data = await response.json();
-        setApplications(data);
-      } catch {
-        setMessage("Could not connect to the backend.");
-      }
-    };
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
 
-    loadApplications();
-  }, []);
+  const showToast = (message, type = "info") => {
+    setToast({ message, type });
+    setTimeout(() => setToast({ message: "", type: "info" }), 3500);
+  };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const newApplication = Object.fromEntries(formData.entries());
-
+  // Fetch Applications
+  const loadApplications = async () => {
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newApplication),
-      });
-
-      const savedApplication = await response.json();
-
-      if (!response.ok) {
-        setMessage(savedApplication.message || "Could not save application.");
-        return;
-      }
-
-      setApplications((currentApplications) => [
-        savedApplication,
-        ...currentApplications,
-      ]);
-      setMessage("Application saved successfully!");
-      event.target.reset();
-    } catch {
-      setMessage("Could not connect to the backend.");
+      const res = await fetch(`${API_BASE}/applications`);
+      if (!res.ok) throw new Error("Failed to fetch applications");
+      const data = await res.json();
+      setApplications(data);
+    } catch (err) {
+      showToast("Could not connect to backend server on port 5001.", "error");
     }
   };
 
-  const interviews = applications.filter(
-    (application) => application.status === "Interview"
-  ).length;
+  useEffect(() => {
+    loadApplications();
+  }, []);
 
-  const offers = applications.filter(
-    (application) => application.status === "Offered"
-  ).length;
+  // Filtered Applications for Search
+  const filteredApplications = applications.filter((app) => {
+    if (!searchQuery.trim()) return true;
+    const query = searchQuery.toLowerCase();
+    const companyMatch = app.company?.toLowerCase().includes(query);
+    const positionMatch = app.position?.toLowerCase().includes(query);
+    const locationMatch = app.location?.toLowerCase().includes(query);
+    const notesMatch = app.notes?.toLowerCase().includes(query);
+    const tagsMatch = app.tags?.some((t) => t.toLowerCase().includes(query));
+    return companyMatch || positionMatch || locationMatch || notesMatch || tagsMatch;
+  });
+
+  // Instant Status Update (Drag & Drop or Inline Dropdown)
+  const handleUpdateStatus = async (id, newStatus) => {
+    setApplications((prev) =>
+      prev.map((app) => (app._id === id ? { ...app, status: newStatus } : app))
+    );
+
+    try {
+      const res = await fetch(`${API_BASE}/applications/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      if (!res.ok) throw new Error("Status update failed");
+      const updated = await res.json();
+      setApplications((prev) =>
+        prev.map((app) => (app._id === id ? updated : app))
+      );
+      showToast(`Application status updated to "${newStatus}"`, "info");
+    } catch (err) {
+      showToast("Could not update status on server.", "error");
+      loadApplications();
+    }
+  };
+
+  // Save Application (Create or Edit)
+  const handleSaveApplication = async (formData) => {
+    try {
+      const isEdit = !!editingApp;
+      const url = isEdit ? `${API_BASE}/applications/${editingApp._id}` : `${API_BASE}/applications`;
+      const method = isEdit ? "PUT" : "POST";
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to save application");
+      }
+
+      const saved = await res.json();
+
+      if (isEdit) {
+        setApplications((prev) => prev.map((app) => (app._id === saved._id ? saved : app)));
+        showToast(`Updated ${saved.company} application!`, "info");
+      } else {
+        setApplications((prev) => [saved, ...prev]);
+        showToast(`Added ${saved.company} application!`, "info");
+      }
+
+      setIsAppModalOpen(false);
+      setEditingApp(null);
+    } catch (err) {
+      showToast(err.message, "error");
+    }
+  };
+
+  // Quick Apply from Client Portal
+  const handleQuickApply = async (newAppData) => {
+    try {
+      const res = await fetch(`${API_BASE}/applications`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newAppData)
+      });
+      if (!res.ok) throw new Error("Failed to submit application");
+      const saved = await res.json();
+      setApplications((prev) => [saved, ...prev]);
+      showToast(`Application submitted to ${saved.company}!`, "info");
+    } catch (err) {
+      showToast("Could not submit application.", "error");
+    }
+  };
+
+  // Delete Single Application
+  const handleDeleteApplication = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this application?")) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/applications/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Delete failed");
+
+      setApplications((prev) => prev.filter((app) => app._id !== id));
+      showToast("Application deleted.", "info");
+    } catch (err) {
+      showToast("Failed to delete application.", "error");
+    }
+  };
+
+  // Seed Sample Demo Data
+  const handleSeedData = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/sample/seed`, { method: "POST" });
+      if (!res.ok) throw new Error("Seeding failed");
+      const data = await res.json();
+      setApplications(data.data);
+      showToast("Database seeded with sample applications!", "info");
+    } catch (err) {
+      showToast("Could not seed demo data.", "error");
+    }
+  };
+
+  // Import CSV Batch
+  const handleImportCSV = async (importedApps) => {
+    try {
+      const res = await fetch(`${API_BASE}/applications/batch`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(importedApps)
+      });
+      if (!res.ok) throw new Error("CSV import failed");
+      const data = await res.json();
+      setApplications((prev) => [...data, ...prev]);
+      showToast(`Successfully imported ${data.length} applications from CSV!`, "info");
+    } catch (err) {
+      showToast("Failed to import CSV applications.", "error");
+    }
+  };
+
+  // Clear All Applications
+  const handleClearAll = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/applications`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Bulk delete failed");
+      setApplications([]);
+      showToast("All applications cleared.", "info");
+    } catch (err) {
+      showToast("Failed to clear applications.", "error");
+    }
+  };
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   return (
-    <main className="app">
-      <header className="app-header">
-        <div>
-          <p className="eyebrow">INTERNSHIP APPLICATION TRACKER</p>
-          <h1>InternTrack</h1>
-          <p>Manage your internship applications in one place.</p>
+    <div className="app-container">
+      {/* Toast Notification */}
+      {toast.message && (
+        <div className={`toast-banner ${toast.type}`}>
+          <span>{toast.message}</span>
+          <button className="icon-action-btn" onClick={() => setToast({ message: "", type: "info" })}>
+            ×
+          </button>
         </div>
-      </header>
+      )}
 
-      <section className="form-section">
-        <h2>Add an application</h2>
+      {/* Top Navbar */}
+      <Navbar
+        portalMode={portalMode}
+        setPortalMode={setPortalMode}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        onOpenCreateModal={() => {
+          setEditingApp(null);
+          setIsAppModalOpen(true);
+        }}
+        onOpenDataModal={() => setIsDataModalOpen(true)}
+        onSeedData={handleSeedData}
+        totalCount={applications.length}
+      />
 
-        <form onSubmit={handleSubmit}>
-          <label>
-            Company name
-            <input name="company" placeholder="Example: Virtusa" required />
-          </label>
-
-          <label>
-            Position
-            <input
-              name="position"
-              placeholder="Example: Software Engineering Intern"
-              required
-            />
-          </label>
-
-          <label>
-            Status
-            <select name="status" defaultValue="Applied">
-              <option>Applied</option>
-              <option>Interview</option>
-              <option>Rejected</option>
-              <option>Offered</option>
-            </select>
-          </label>
-
-          <label>
-            Location
-            <input name="location" placeholder="Example: Colombo / Remote" />
-          </label>
-
-          <label className="full-width">
-            Job link
-            <input name="jobLink" placeholder="https://..." />
-          </label>
-
-          <label className="full-width">
-            Notes
-            <textarea
-              name="notes"
-              placeholder="Add interview dates or important notes."
-            />
-          </label>
-
-          <button type="submit">Save application</button>
-        </form>
-
-        {message && <p className="message">{message}</p>}
-      </section>
-
-      <section className="stats">
-        <article>
-          <span>Total applications</span>
-          <strong>{applications.length}</strong>
-        </article>
-        <article>
-          <span>Interviews</span>
-          <strong>{interviews}</strong>
-        </article>
-        <article>
-          <span>Offers</span>
-          <strong>{offers}</strong>
-        </article>
-      </section>
-
-      <section className="applications-section">
-        <h2>Your applications</h2>
-
-        {applications.length === 0 ? (
-          <p>No applications saved yet.</p>
+      {/* Main Content: Client Portal OR Admin Console */}
+      <main className="main-content">
+        {portalMode === "client" ? (
+          <ClientPortal
+            applications={filteredApplications}
+            onQuickApply={handleQuickApply}
+            onOpenCreateModal={() => {
+              setEditingApp(null);
+              setIsAppModalOpen(true);
+            }}
+          />
         ) : (
-          <div className="application-list">
-            {applications.map((application) => (
-              <article className="application-card" key={application._id}>
-                <div>
-                  <h3>{application.company}</h3>
-                  <p>{application.position}</p>
-                </div>
-                <span className="status">{application.status}</span>
-                <p>{application.location || "Location not added"}</p>
-              </article>
-            ))}
-          </div>
+          <AdminConsole
+            viewMode={adminViewMode}
+            setViewMode={setAdminViewMode}
+            filteredApplications={filteredApplications}
+            allApplications={applications}
+            onUpdateStatus={handleUpdateStatus}
+            onEditApplication={(app) => {
+              setEditingApp(app);
+              setIsAppModalOpen(true);
+            }}
+            onDeleteApplication={handleDeleteApplication}
+            onOpenDataModal={() => setIsDataModalOpen(true)}
+          />
         )}
-      </section>
-    </main>
+      </main>
+
+      {/* Modals */}
+      <ApplicationModal
+        isOpen={isAppModalOpen}
+        onClose={() => {
+          setIsAppModalOpen(false);
+          setEditingApp(null);
+        }}
+        onSave={handleSaveApplication}
+        initialData={editingApp}
+      />
+
+      <DataManagementModal
+        isOpen={isDataModalOpen}
+        onClose={() => setIsDataModalOpen(false)}
+        applications={applications}
+        onImportCSV={handleImportCSV}
+        onSeedData={handleSeedData}
+        onClearAll={handleClearAll}
+      />
+    </div>
   );
 }
 
