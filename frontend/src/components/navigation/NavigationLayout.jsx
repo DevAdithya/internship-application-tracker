@@ -1,38 +1,28 @@
 import React, { useState } from 'react';
+import '../../nav.css';
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import MobileDrawer from './MobileDrawer';
 
 export default function NavigationLayout({
-  portalMode,
-  setPortalMode,
-  adminViewMode,
-  setAdminViewMode,
-  searchQuery,
-  setSearchQuery,
-  theme,
-  toggleTheme,
+  portalMode, setPortalMode,
+  adminViewMode, setAdminViewMode,
+  searchQuery, setSearchQuery,
+  theme, toggleTheme,
   currentUser,
-  onOpenAuthModal,
-  onOpenProfileModal,
-  onLogout,
-  onOpenCreateModal,
-  onOpenDataModal,
-  onSeedData,
-  totalCount,
-  children,
+  onOpenAuthModal, onOpenProfileModal, onLogout,
+  onOpenCreateModal, onOpenDataModal, onSeedData,
+  totalCount, children,
 }) {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-main)] flex flex-col font-sans transition-colors duration-200">
-      {/* Desktop & Tablet Sidebar */}
+    <div className="nav-shell">
+      {/* Desktop Sidebar */}
       <Sidebar
-        portalMode={portalMode}
-        setPortalMode={setPortalMode}
-        adminViewMode={adminViewMode}
-        setAdminViewMode={setAdminViewMode}
+        portalMode={portalMode} setPortalMode={setPortalMode}
+        adminViewMode={adminViewMode} setAdminViewMode={setAdminViewMode}
         currentUser={currentUser}
         onOpenAuthModal={onOpenAuthModal}
         onOpenProfileModal={onOpenProfileModal}
@@ -45,17 +35,14 @@ export default function NavigationLayout({
         setIsCollapsed={setIsSidebarCollapsed}
       />
 
-      {/* Mobile Drawer Navigation */}
+      {/* Mobile Drawer */}
       <MobileDrawer
         isOpen={isMobileDrawerOpen}
         onClose={() => setIsMobileDrawerOpen(false)}
-        portalMode={portalMode}
-        setPortalMode={setPortalMode}
-        adminViewMode={adminViewMode}
-        setAdminViewMode={setAdminViewMode}
+        portalMode={portalMode} setPortalMode={setPortalMode}
+        adminViewMode={adminViewMode} setAdminViewMode={setAdminViewMode}
         currentUser={currentUser}
-        theme={theme}
-        toggleTheme={toggleTheme}
+        theme={theme} toggleTheme={toggleTheme}
         onOpenAuthModal={onOpenAuthModal}
         onOpenProfileModal={onOpenProfileModal}
         onOpenDataModal={onOpenDataModal}
@@ -65,21 +52,13 @@ export default function NavigationLayout({
         totalCount={totalCount}
       />
 
-      {/* Main Wrapper with Sidebar Offset */}
-      <div
-        className={`flex-1 flex flex-col transition-all duration-300 ${
-          isSidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'
-        }`}
-      >
-        {/* Topbar Header */}
+      {/* Main area shifts right based on sidebar width */}
+      <div className={`nav-main-area ${isSidebarCollapsed ? 'sidebar-closed' : 'sidebar-open'}`}>
         <Topbar
-          portalMode={portalMode}
-          setPortalMode={setPortalMode}
+          portalMode={portalMode} setPortalMode={setPortalMode}
           adminViewMode={adminViewMode}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          theme={theme}
-          toggleTheme={toggleTheme}
+          searchQuery={searchQuery} setSearchQuery={setSearchQuery}
+          theme={theme} toggleTheme={toggleTheme}
           currentUser={currentUser}
           onOpenAuthModal={onOpenAuthModal}
           onOpenProfileModal={onOpenProfileModal}
@@ -93,8 +72,7 @@ export default function NavigationLayout({
           onOpenMobileDrawer={() => setIsMobileDrawerOpen(true)}
         />
 
-        {/* Dashboard Main Content Area (Untouched!) */}
-        <div className="flex-1 w-full max-w-[1600px] mx-auto p-4 sm:p-6 lg:p-8">
+        <div className="nav-page-content">
           {children}
         </div>
       </div>

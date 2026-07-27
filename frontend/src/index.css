@@ -141,6 +141,28 @@ a:hover {
   background: var(--text-subtle);
 }
 
+/* Premium Navigation Animations & Effects */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-gradient-border {
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4, #6366f1);
+  background-size: 300% 300%;
+  animation: gradientShift 6s ease infinite;
+}
+
+.nav-glow-pulse {
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+  transition: box-shadow 0.3s ease;
+}
+
+.nav-glow-pulse:hover {
+  box-shadow: 0 0 25px rgba(99, 102, 241, 0.45);
+}
+
 /* Utility Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }

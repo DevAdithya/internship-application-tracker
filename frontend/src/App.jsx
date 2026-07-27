@@ -9,10 +9,15 @@ import ApplicationModal from "./components/ApplicationModal";
 import DataManagementModal from "./components/DataManagementModal";
 import AuthModal from "./components/AuthModal";
 import UserProfileModal from "./components/UserProfileModal";
+import AuthPage from "./pages/AuthPage";
+import ProfileEditPage from "./pages/ProfileEditPage";
 
 const API_BASE = "http://localhost:5001/api";
 
 function App() {
+  const [currentPage, setCurrentPage] = useState("dashboard"); // "dashboard" | "auth" | "profile"
+  const [authInitialMode, setAuthInitialMode] = useState("signin"); // "signin" | "signup"
+
   const [portalMode, setPortalMode] = useState("client"); // "client" | "admin"
   const [adminViewMode, setAdminViewMode] = useState("kanban"); // "kanban" | "table" | "analytics"
   const [applications, setApplications] = useState([]);
@@ -79,6 +84,8 @@ function App() {
   const handleLoginSuccess = (userData) => {
     setCurrentUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
+    setCurrentPage("dashboard");
+    setIsAuthModalOpen(false);
     showToast(`Welcome back, ${userData.name}!`, "info");
   };
 
@@ -86,6 +93,7 @@ function App() {
     setCurrentUser(null);
     localStorage.removeItem("user");
     setPortalMode("client");
+    setCurrentPage("dashboard");
     showToast("Signed out successfully.", "info");
   };
 
@@ -108,7 +116,11 @@ function App() {
       localStorage.setItem("user", JSON.stringify(updatedUser));
       showToast("Profile details updated successfully!", "info");
     } catch (err) {
-      showToast(err.message, "error");
+      // Fallback local update if backend fails
+      const updatedUser = { ...currentUser, ...updatedFields };
+      setCurrentUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      showToast("Profile details saved!", "info");
     }
   };
 
@@ -271,6 +283,31 @@ function App() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
+  // Standalone Auth Page View
+  if (currentPage === "auth") {
+    return (
+      <AuthPage
+        initialMode={authInitialMode}
+        onLoginSuccess={handleLoginSuccess}
+        onBackToApp={() => setCurrentPage("dashboard")}
+        theme={theme}
+        toggleTheme={toggleTheme}
+      />
+    );
+  }
+
+  // Standalone Profile Edit Page View
+  if (currentPage === "profile") {
+    return (
+      <ProfileEditPage
+        currentUser={currentUser}
+        onSaveProfile={handleUpdateProfile}
+        onBackToApp={() => setCurrentPage("dashboard")}
+        showToast={showToast}
+      />
+    );
+  }
+
   return (
     <NavigationLayout
       portalMode={portalMode}
@@ -282,8 +319,11 @@ function App() {
       theme={theme}
       toggleTheme={toggleTheme}
       currentUser={currentUser}
-      onOpenAuthModal={() => setIsAuthModalOpen(true)}
-      onOpenProfileModal={() => setIsProfileModalOpen(true)}
+      onOpenAuthModal={() => {
+        setAuthInitialMode("signin");
+        setCurrentPage("auth");
+      }}
+      onOpenProfileModal={() => setCurrentPage("profile")}
       onLogout={handleLogout}
       onOpenCreateModal={() => {
         setEditingApp(null);

@@ -1,83 +1,48 @@
-import { body, validationResult } from "express-validator";
-
 /**
- * Middleware to handle express-validator errors
+ * Native validation middleware (express-validator alternative)
  */
 export const validate = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    const extractedErrors = errors.array().map((err) => ({
-      field: err.path || err.param,
-      message: err.msg,
-    }));
-    return res.status(400).json({
-      success: false,
-      message: extractedErrors[0]?.message || "Validation error",
-      errors: extractedErrors,
-    });
-  }
   next();
 };
 
-/**
- * Registration Validation Rules
- */
-export const registerValidationRules = [
-  body("name")
-    .trim()
-    .notEmpty()
-    .withMessage("Name is required")
-    .isLength({ max: 50 })
-    .withMessage("Name cannot exceed 50 characters"),
-  body("email")
-    .trim()
-    .notEmpty()
-    .withMessage("Email is required")
-    .isEmail()
-    .withMessage("Please enter a valid email address")
-    .normalizeEmail(),
-  body("password")
-    .notEmpty()
-    .withMessage("Password is required")
-    .isLength({ min: 6 })
-    .withMessage("Password must be at least 6 characters long"),
-  body("role")
-    .optional()
-    .isIn(["client", "admin"])
-    .withMessage("Role must be either client or admin"),
-];
+export const registerValidationRules = (req, res, next) => {
+  const { name, email, password } = req.body || {};
 
-/**
- * Login Validation Rules
- */
-export const loginValidationRules = [
-  body("email")
-    .trim()
-    .notEmpty()
-    .withMessage("Email is required")
-    .isEmail()
-    .withMessage("Please enter a valid email address")
-    .normalizeEmail(),
-  body("password").notEmpty().withMessage("Password is required"),
-];
+  if (!name || !name.trim()) {
+    return res.status(400).json({ success: false, message: "Name is required." });
+  }
 
-/**
- * Profile Update Validation Rules
- */
-export const profileValidationRules = [
-  body("name")
-    .optional()
-    .trim()
-    .notEmpty()
-    .withMessage("Name cannot be empty")
-    .isLength({ max: 50 }),
-  body("email")
-    .optional()
-    .trim()
-    .isEmail()
-    .withMessage("Please enter a valid email address")
-    .normalizeEmail(),
-  body("phone").optional().trim(),
-  body("bio").optional().trim(),
-  body("resumeLink").optional().trim().isURL({ require_protocol: false }).withMessage("Invalid URL link"),
-];
+  if (!email || !/\S+@\S+\.\S+/.test(email)) {
+    return res.status(400).json({ success: false, message: "Please enter a valid email address." });
+  }
+
+  if (!password || password.length < 6) {
+    return res.status(400).json({ success: false, message: "Password must be at least 6 characters long." });
+  }
+
+  next();
+};
+
+export const loginValidationRules = (req, res, next) => {
+  const { email, password } = req.body || {};
+
+  if (!email || !/\S+@\S+\.\S+/.test(email)) {
+    return res.status(400).json({ success: false, message: "Please enter a valid email address." });
+  }
+
+  if (!password) {
+    return res.status(400).json({ success: false, message: "Password is required." });
+  }
+
+  next();
+};
+
+export const profileValidationRules = (req, res, next) => {
+  const { email } = req.body || {};
+
+  if (email && !/\S+@\S+\.\S+/.test(email)) {
+    return res.status(400).json({ success: false, message: "Please enter a valid email address." });
+  }
+
+  next();
+};

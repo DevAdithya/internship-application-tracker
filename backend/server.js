@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import helmet from "helmet";
-import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 
+import helmet from "./middleware/helmet.js";
+import cookieParser from "./middleware/cookieParser.js";
 import applicationRoutes from "./routes/applicationRoutes.js";
 import sampleDataRoutes from "./routes/sampleDataRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -32,14 +32,13 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps or curl) or if origin is allowed
       if (!origin || allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV !== "production") {
         callback(null, true);
       } else {
         callback(new Error("CORS policy blocked this origin"));
       }
     },
-    credentials: true, // Allow cookies to be sent back and forth
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
