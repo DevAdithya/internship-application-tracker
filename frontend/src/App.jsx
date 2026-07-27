@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./index.css";
 import "./App.css";
 
-import Navbar from "./components/Navbar";
+import NavigationLayout from "./components/navigation/NavigationLayout";
 import ClientPortal from "./components/ClientPortal";
 import AdminConsole from "./components/AdminConsole";
 import ApplicationModal from "./components/ApplicationModal";
@@ -272,7 +272,27 @@ function App() {
   };
 
   return (
-    <div className="app-container">
+    <NavigationLayout
+      portalMode={portalMode}
+      setPortalMode={setPortalMode}
+      adminViewMode={adminViewMode}
+      setAdminViewMode={setAdminViewMode}
+      searchQuery={searchQuery}
+      setSearchQuery={setSearchQuery}
+      theme={theme}
+      toggleTheme={toggleTheme}
+      currentUser={currentUser}
+      onOpenAuthModal={() => setIsAuthModalOpen(true)}
+      onOpenProfileModal={() => setIsProfileModalOpen(true)}
+      onLogout={handleLogout}
+      onOpenCreateModal={() => {
+        setEditingApp(null);
+        setIsAppModalOpen(true);
+      }}
+      onOpenDataModal={() => setIsDataModalOpen(true)}
+      onSeedData={handleSeedData}
+      totalCount={applications.length}
+    >
       {/* Toast Notification */}
       {toast.message && (
         <div className={`toast-banner ${toast.type}`}>
@@ -282,27 +302,6 @@ function App() {
           </button>
         </div>
       )}
-
-      {/* Top Navbar */}
-      <Navbar
-        portalMode={portalMode}
-        setPortalMode={setPortalMode}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        theme={theme}
-        toggleTheme={toggleTheme}
-        currentUser={currentUser}
-        onOpenAuthModal={() => setIsAuthModalOpen(true)}
-        onOpenProfileModal={() => setIsProfileModalOpen(true)}
-        onLogout={handleLogout}
-        onOpenCreateModal={() => {
-          setEditingApp(null);
-          setIsAppModalOpen(true);
-        }}
-        onOpenDataModal={() => setIsDataModalOpen(true)}
-        onSeedData={handleSeedData}
-        totalCount={applications.length}
-      />
 
       {/* Main Content: Client Portal OR Admin Console */}
       <main className="main-content">
@@ -365,7 +364,7 @@ function App() {
         onSeedData={handleSeedData}
         onClearAll={handleClearAll}
       />
-    </div>
+    </NavigationLayout>
   );
 }
 
