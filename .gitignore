@@ -1,14 +1,18 @@
 # Dependencies
 node_modules/
 
-# Environment variables
+# Environment files
 .env
+.env.*
 
-# Build output
+# Build files
 dist/
+
+# Logs
+*.log
 
 # macOS
 .DS_Store
 
-# Logs
-*.log
+# VS Code
+.vscode/
