@@ -96,21 +96,21 @@ export default function AuthPage({ initialMode = 'signin', onLoginSuccess, onBac
 
       {/* Header */}
       <header className="auth-header">
-        <div className="auth-brand">
+        <div className="auth-brand" onClick={() => window.location.href = '/'} style={{ cursor: 'pointer' }}>
           <div className="auth-brand-icon"><Briefcase size={20} /></div>
-          <div className="auth-brand-name">InternTrack</div>
+          <div className="auth-brand-name">Intern<span style={{ color: '#52c4a8' }}>Track</span></div>
           <span className="auth-brand-badge">PRO</span>
         </div>
         <div className="auth-header-actions">
           <button className="topbar-icon-btn" onClick={toggleTheme} title="Toggle Theme">
             {theme === 'dark'
               ? <Sun size={18} style={{ color: '#fbbf24' }} />
-              : <Moon size={18} style={{ color: '#818cf8' }} />
+              : <Moon size={18} style={{ color: '#52c4a8' }} />
             }
           </button>
           {onBackToApp && (
             <button className="auth-back-btn" onClick={onBackToApp}>
-              <ArrowLeft size={14} /> Back to App
+              <ArrowLeft size={14} /> Back to Website
             </button>
           )}
         </div>
@@ -172,7 +172,7 @@ export default function AuthPage({ initialMode = 'signin', onLoginSuccess, onBac
               </div>
               <div className="auth-demo-grid">
                 <button className="auth-demo-btn" onClick={() => demoLogin('client')}>
-                  <User size={14} style={{ color: '#818cf8' }} /> Demo Client
+                  <User size={14} style={{ color: '#52c4a8' }} /> Demo Client
                 </button>
                 <button className="auth-demo-btn" onClick={() => demoLogin('admin')}>
                   <ShieldCheck size={14} style={{ color: '#34d399' }} /> Demo Admin

@@ -15,8 +15,21 @@ import ProfileEditPage from "./pages/ProfileEditPage";
 const API_BASE = "http://localhost:5001/api";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("dashboard"); // "dashboard" | "auth" | "profile"
-  const [authInitialMode, setAuthInitialMode] = useState("signin"); // "signin" | "signup"
+  const getInitialPageState = () => {
+    const search = window.location.search;
+    const path = window.location.pathname;
+    if (search.includes("auth=signup") || path === "/signup") {
+      return { page: "auth", mode: "signup" };
+    }
+    if (search.includes("auth=signin") || search.includes("auth=true") || path === "/auth" || path === "/signin") {
+      return { page: "auth", mode: "signin" };
+    }
+    return { page: "dashboard", mode: "signin" };
+  };
+
+  const initial = getInitialPageState();
+  const [currentPage, setCurrentPage] = useState(initial.page); // "dashboard" | "auth" | "profile"
+  const [authInitialMode, setAuthInitialMode] = useState(initial.mode); // "signin" | "signup"
 
   const [portalMode, setPortalMode] = useState("client"); // "client" | "admin"
   const [adminViewMode, setAdminViewMode] = useState("kanban"); // "kanban" | "table" | "analytics"
@@ -84,6 +97,14 @@ function App() {
   const handleLoginSuccess = (userData) => {
     setCurrentUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
+    if (userData.role === "admin") {
+      setPortalMode("admin");
+    } else {
+      setPortalMode("client");
+    }
+    if (window.location.search.includes("auth=")) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
     setCurrentPage("dashboard");
     setIsAuthModalOpen(false);
     showToast(`Welcome back, ${userData.name}!`, "info");
@@ -289,7 +310,13 @@ function App() {
       <AuthPage
         initialMode={authInitialMode}
         onLoginSuccess={handleLoginSuccess}
-        onBackToApp={() => setCurrentPage("dashboard")}
+        onBackToApp={() => {
+          if (currentUser) {
+            setCurrentPage("dashboard");
+          } else {
+            window.location.href = "/";
+          }
+        }}
         theme={theme}
         toggleTheme={toggleTheme}
       />
