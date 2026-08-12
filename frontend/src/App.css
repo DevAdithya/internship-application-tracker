@@ -17,8 +17,8 @@
 .toast-banner {
   padding: 12px 20px;
   border-radius: var(--radius-sm);
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid var(--accent-primary);
+  background: rgba(82,196,168,0.12);
+  border: 1px solid rgba(82,196,168,0.35);
   color: var(--text-main);
   display: flex;
   align-items: center;
@@ -137,15 +137,15 @@
 }
 
 .portal-btn.active.client-mode {
-  background: linear-gradient(135deg, #06b6d4, #3b82f6);
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(6, 182, 212, 0.4);
+  background: var(--accent-primary);
+  color: #080e0e;
+  box-shadow: 0 4px 14px rgba(82,196,168,0.4);
 }
 
 .portal-btn.active.admin-mode {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  background: linear-gradient(135deg, var(--accent-secondary), #3a9e88);
+  color: #080e0e;
+  box-shadow: 0 4px 14px rgba(82,196,168,0.35);
 }
 
 /* User Auth Badge in Navbar */
@@ -222,8 +222,8 @@
 
 .view-btn.active {
   background: var(--accent-primary);
-  color: #ffffff;
-  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
+  color: #080e0e;
+  box-shadow: 0 2px 10px rgba(82,196,168,0.4);
 }
 
 .navbar-right {
@@ -297,14 +297,15 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-  color: #ffffff;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  background: var(--accent-primary);
+  color: #080e0e;
+  box-shadow: 0 4px 14px rgba(82,196,168,0.35);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+  background: var(--accent-primary-hover);
+  box-shadow: 0 6px 20px rgba(82,196,168,0.5);
 }
 
 .btn-secondary {
@@ -369,8 +370,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
-  background: linear-gradient(135deg, rgba(6, 182, 212, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
-  border-color: rgba(6, 182, 212, 0.3);
+  background: linear-gradient(135deg, rgba(82,196,168,0.1) 0%, rgba(58,158,136,0.08) 100%);
+  border-color: rgba(82,196,168,0.3);
 }
 
 .client-badge {
@@ -463,7 +464,7 @@
 
 .client-tab-btn.active {
   background: var(--accent-primary);
-  color: #ffffff;
+  color: #080e0e;
   border-color: var(--accent-primary);
 }
 
@@ -606,7 +607,7 @@
   height: 12px;
   border-radius: 50%;
   background: var(--accent-primary);
-  box-shadow: 0 0 10px var(--accent-primary);
+  box-shadow: 0 0 10px rgba(82,196,168,0.6);
 }
 
 .app-company-name {
@@ -702,7 +703,7 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  border: 2px solid var(--accent-primary);
+  border: 2px solid rgba(82,196,168,0.6);
   object-fit: cover;
 }
 
@@ -754,7 +755,7 @@
 
 .preset-btn.selected {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 10px var(--accent-primary);
+  box-shadow: 0 0 10px rgba(82,196,168,0.5);
 }
 
 /* KANBAN BOARD */
@@ -778,7 +779,7 @@
 
 .kanban-column.drag-over {
   border-color: var(--accent-primary);
-  background: rgba(99, 102, 241, 0.06);
+  background: rgba(82,196,168,0.06);
 }
 
 .column-header {
@@ -946,9 +947,9 @@
   align-items: center;
   gap: 4px;
   font-size: 0.68rem;
-  color: var(--accent-secondary);
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  color: var(--accent-primary);
+  background: rgba(82,196,168,0.1);
+  border: 1px solid rgba(82,196,168,0.25);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
 }
@@ -1177,7 +1178,7 @@
 }
 
 .stat-icon-wrapper.primary {
-  background: rgba(99, 102, 241, 0.15);
+  background: rgba(82,196,168,0.15);
   color: var(--accent-primary);
 }
 
@@ -1192,8 +1193,8 @@
 }
 
 .stat-icon-wrapper.rate {
-  background: rgba(139, 92, 246, 0.15);
-  color: var(--accent-secondary);
+  background: rgba(82,196,168,0.12);
+  color: var(--accent-primary);
 }
 
 .stat-info {
@@ -1376,13 +1377,14 @@
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  border: 3px solid var(--accent-primary);
+  border: 3px solid rgba(82,196,168,0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
   font-size: 0.95rem;
   flex-shrink: 0;
+  color: var(--accent-primary);
 }
 
 .checklist-sub {
@@ -1405,8 +1407,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.07) 0%, rgba(139, 92, 246, 0.07) 100%);
-  border-color: rgba(99, 102, 241, 0.25);
+  background: linear-gradient(135deg, rgba(82,196,168,0.07) 0%, rgba(58,158,136,0.07) 100%);
+  border-color: rgba(82,196,168,0.25);
 }
 
 .admin-title-group {
@@ -1513,6 +1515,7 @@
   color: var(--accent-primary);
   border-bottom-color: var(--accent-primary);
   background: var(--bg-secondary);
+  font-weight: 700;
 }
 
 .modal-form {

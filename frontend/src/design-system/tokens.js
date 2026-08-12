@@ -10,19 +10,19 @@
 // ─── Color Palette ──────────────────────────────────────────────────────────
 
 export const colors = {
-  // Brand — Indigo (primary interactive color, inspired by Linear/Stripe)
+  // Brand — Teal (primary interactive color, matching ClientApp.css)
   brand: {
-    50:  '#eef2ff',
-    100: '#e0e7ff',
-    200: '#c7d2fe',
-    300: '#a5b4fc',
-    400: '#818cf8',
-    500: '#6366f1', // primary
-    600: '#4f46e5',
-    700: '#4338ca',
-    800: '#3730a3',
-    900: '#312e81',
-    950: '#1e1b4b',
+    50:  '#e6f7f3',
+    100: '#cceee7',
+    200: '#99ddd0',
+    300: '#66ccb8',
+    400: '#52c4a8',
+    500: '#52c4a8', // primary
+    600: '#3a9e88',
+    700: '#2d7a69',
+    800: '#1f564a',
+    900: '#1a3a35',
+    950: '#0f2420',
   },
 
   // Violet — Secondary accent (for gradients, premium feel)
@@ -195,9 +195,9 @@ export const shadows = {
   none:  'none',
 
   // Glow shadows (brand)
-  glow:       '0 0 20px rgba(99,102,241,0.25)',
-  'glow-sm':  '0 0 10px rgba(99,102,241,0.2)',
-  'glow-lg':  '0 0 40px rgba(99,102,241,0.3)',
+  glow:       '0 0 20px rgba(82,196,168,0.25)',
+  'glow-sm':  '0 0 10px rgba(82,196,168,0.2)',
+  'glow-lg':  '0 0 40px rgba(82,196,168,0.3)',
 };
 
 // ─── Transitions ─────────────────────────────────────────────────────────────

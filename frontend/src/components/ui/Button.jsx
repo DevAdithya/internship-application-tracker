@@ -21,7 +21,7 @@ const variantClasses = {
     'hover:bg-indigo-500 hover:border-indigo-500',
     'active:bg-indigo-700 active:border-indigo-700',
     'focus-visible:ring-2 focus-visible:ring-indigo-500/50 focus-visible:ring-offset-1',
-    'shadow-[0_1px_3px_rgba(99,102,241,0.3)] hover:shadow-[0_2px_8px_rgba(99,102,241,0.4)]',
+    'shadow-[0_1px_3px_rgba(82,196,168,0.3)] hover:shadow-[0_2px_8px_rgba(82,196,168,0.4)]',
     'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-indigo-600 disabled:hover:border-indigo-600 disabled:hover:shadow-none',
   ],
   secondary: [
