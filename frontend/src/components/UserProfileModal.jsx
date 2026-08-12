@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X, User, Mail, Phone, FileText, MapPin, Camera, Save, ShieldCheck, Sparkles } from "lucide-react";
+import { X, User, Mail, Phone, FileText, MapPin, Camera, Save, ShieldCheck, Sparkles, Upload } from "lucide-react";
 
 const PRESET_AVATARS = [
   "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix",
@@ -39,6 +39,21 @@ export default function UserProfileModal({
 
   if (!isOpen || !currentUser) return null;
 
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert("File size must be under 5MB");
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -65,7 +80,7 @@ export default function UserProfileModal({
         <div className="modal-header">
           <div className="modal-title-group">
             <User className="modal-icon" />
-            <h2>Edit Client Profile</h2>
+            <h2>Edit {currentUser.role === "admin" ? "Admin" : "Client"} Profile</h2>
           </div>
           <button className="icon-action-btn" onClick={onClose}>
             <X size={20} />
@@ -82,6 +97,23 @@ export default function UserProfileModal({
                   {currentUser.role === "admin" ? <ShieldCheck size={12} /> : <User size={12} />}
                   {currentUser.role === "admin" ? "Admin" : "Client"}
                 </span>
+                <label style={{
+                  marginTop: 6,
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 5,
+                  fontSize: "0.75rem",
+                  fontWeight: 600,
+                  color: "#52c4a8",
+                  background: "rgba(82,196,168,0.15)",
+                  border: "1px solid rgba(82,196,168,0.35)",
+                  padding: "5px 10px",
+                  borderRadius: "var(--radius-sm)",
+                  cursor: "pointer"
+                }}>
+                  <Upload size={13} /> Upload Photo
+                  <input type="file" accept="image/*" style={{ display: "none" }} onChange={handleFileUpload} />
+                </label>
               </div>
 
               <div className="avatar-picker-group">
@@ -98,16 +130,6 @@ export default function UserProfileModal({
                     </button>
                   ))}
                 </div>
-
-                <label className="form-label mt-2">
-                  Or Custom Photo URL:
-                  <input
-                    type="url"
-                    placeholder="https://..."
-                    value={avatar}
-                    onChange={(e) => setAvatar(e.target.value)}
-                  />
-                </label>
               </div>
             </div>
 

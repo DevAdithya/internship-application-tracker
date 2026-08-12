@@ -700,11 +700,12 @@
 }
 
 .profile-avatar-img {
-  width: 64px;
-  height: 64px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  border: 2px solid rgba(82,196,168,0.6);
+  border: 3px solid rgba(82,196,168,0.6);
   object-fit: cover;
+  box-shadow: 0 0 20px rgba(82,196,168,0.25);
 }
 
 .role-chip {

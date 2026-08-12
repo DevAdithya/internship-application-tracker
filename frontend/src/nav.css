@@ -1485,11 +1485,11 @@ a { color: var(--accent); text-decoration: none; }
   align-items: flex-start;
 }
 .avatar-preview {
-  width: 80px; height: 80px;
-  border-radius: var(--radius-md);
+  width: 104px; height: 104px;
+  border-radius: 50%;
   object-fit: cover;
-  border: 3px solid rgba(82,196,168,0.45);
-  box-shadow: 0 0 20px rgba(82,196,168,0.25);
+  border: 3px solid rgba(82,196,168,0.55);
+  box-shadow: 0 0 24px rgba(82,196,168,0.3);
   flex-shrink: 0;
 }
 .avatar-grid-section { flex: 1; }
