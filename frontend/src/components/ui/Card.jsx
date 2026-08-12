@@ -31,7 +31,7 @@ const cardVariants = {
     'shadow-[var(--shadow-sm)]',
     'cursor-pointer',
     'hover:border-indigo-500/40 hover:-translate-y-0.5',
-    'hover:shadow-[0_4px_20px_rgba(0,0,0,0.3),0_0_20px_rgba(99,102,241,0.12)]',
+    'hover:shadow-[0_4px_20px_rgba(0,0,0,0.3),0_0_20px_rgba(82,196,168,0.12)]',
     'active:translate-y-0 active:shadow-[var(--shadow-sm)]',
     'transition-all duration-200',
   ],

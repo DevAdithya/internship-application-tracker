@@ -7,27 +7,35 @@
 
 /* ---- CSS Variables ---- */
 :root {
-  --c-bg:        #080e0e;
-  --c-bg2:       #0a1212;
-  --c-surface:   rgba(255,255,255,0.04);
-  --c-border:    rgba(255,255,255,0.07);
-  --c-border-h:  rgba(82,196,168,0.45);
-  --c-teal:      #52c4a8;
-  --c-teal-dim:  rgba(82,196,168,0.18);
-  --c-teal-glow: rgba(82,196,168,0.35);
-  --c-text:      #e8f0ef;
-  --c-muted:     rgba(232,240,239,0.55);
-  --c-subtle:    rgba(232,240,239,0.32);
-  --c-card-bg:   rgba(255,255,255,0.05);
-  --c-card-bdr:  rgba(255,255,255,0.09);
-  --font:        'Inter', -apple-system, sans-serif;
-  --ease:        cubic-bezier(0.16,1,0.3,1);
+  --c-bg: #080e0e;
+  --c-bg2: #0a1212;
+  --c-surface: rgba(255, 255, 255, 0.04);
+  --c-border: rgba(255, 255, 255, 0.07);
+  --c-border-h: rgba(82, 196, 168, 0.45);
+  --c-teal: #52c4a8;
+  --c-teal-dim: rgba(82, 196, 168, 0.18);
+  --c-teal-glow: rgba(82, 196, 168, 0.35);
+  --c-text: #e8f0ef;
+  --c-muted: rgba(232, 240, 239, 0.55);
+  --c-subtle: rgba(232, 240, 239, 0.32);
+  --c-card-bg: rgba(255, 255, 255, 0.05);
+  --c-card-bdr: rgba(255, 255, 255, 0.09);
+  --font: 'Inter', -apple-system, sans-serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ---- Reset ---- */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: var(--font);
@@ -38,21 +46,32 @@ body {
   overflow-x: hidden;
 }
 
-a { color: inherit; text-decoration: none; }
-button { cursor: pointer; border: none; background: none; font-family: inherit; }
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
 
 /* ========================================
    CLIENT HEADER
    ======================================== */
 .cl-header {
   position: fixed;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 900;
   height: 64px;
   display: flex;
   align-items: center;
   padding: 0 40px;
-  background: rgba(8,14,14,0.72);
+  background: rgba(8, 14, 14, 0.72);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--c-border);
@@ -76,14 +95,19 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .cl-logo-icon {
-  width: 32px; height: 32px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   background: linear-gradient(135deg, #1a3a35 0%, #0f2420 100%);
   border: 1px solid var(--c-border-h);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.cl-logo-icon svg { display: block; }
+.cl-logo-icon svg {
+  display: block;
+}
 
 .cl-logo-name {
   font-size: 1rem;
@@ -154,7 +178,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .cl-btn-signup:hover {
   background: #65d4bb;
-  box-shadow: 0 0 18px rgba(82,196,168,0.45);
+  box-shadow: 0 0 18px rgba(82, 196, 168, 0.45);
   transform: translateY(-1px);
 }
 
@@ -173,7 +197,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: radial-gradient(ellipse 80% 70% at 55% 50%, rgba(10,28,24,0.9) 0%, var(--c-bg) 70%);
+  background: radial-gradient(ellipse 80% 70% at 55% 50%, rgba(10, 28, 24, 0.9) 0%, var(--c-bg) 70%);
 }
 
 /* Canvas sphere */
@@ -225,7 +249,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .cl-hero-title em {
   font-style: normal;
-  color: rgba(232,240,239,0.55);
+  color: rgba(232, 240, 239, 0.55);
 }
 
 .cl-hero-desc {
@@ -244,11 +268,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .cl-social-btn {
-  width: 36px; height: 36px;
+  width: 36px;
+  height: 36px;
   border-radius: 8px;
   border: 1px solid var(--c-border);
   background: var(--c-surface);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--c-muted);
   transition: all 0.2s ease;
 }
@@ -296,8 +323,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   width: 130px;
   padding: 16px 14px;
   border-radius: 14px;
-  background: rgba(255,255,255,0.055);
-  border: 1px solid rgba(255,255,255,0.09);
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   display: flex;
@@ -309,18 +336,21 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .cl-mini-card:hover {
-  background: rgba(82,196,168,0.07);
+  background: rgba(82, 196, 168, 0.07);
   border-color: var(--c-border-h);
   transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(82,196,168,0.12);
+  box-shadow: 0 8px 24px rgba(82, 196, 168, 0.12);
 }
 
 .cl-mini-card-icon {
-  width: 36px; height: 36px;
+  width: 36px;
+  height: 36px;
   border-radius: 9px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
-  display: flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--c-teal);
 }
 
@@ -334,14 +364,18 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 /* Floating refresh icon (bottom-right corner like Neurovia) */
 .cl-corner-btn {
   position: fixed;
-  bottom: 28px; right: 28px;
+  bottom: 28px;
+  right: 28px;
   z-index: 80;
-  width: 44px; height: 44px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: 1px solid var(--c-border);
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--c-muted);
   transition: all 0.22s ease;
 }
@@ -376,7 +410,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cl-section-label::before {
   content: '';
   display: inline-block;
-  width: 20px; height: 1px;
+  width: 20px;
+  height: 1px;
   background: var(--c-teal);
   opacity: 0.6;
 }
@@ -418,7 +453,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cl-feature-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--c-teal-glow), transparent);
   opacity: 0;
@@ -426,20 +463,25 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .cl-feature-card:hover {
-  border-color: rgba(82,196,168,0.22);
-  background: rgba(82,196,168,0.04);
+  border-color: rgba(82, 196, 168, 0.22);
+  background: rgba(82, 196, 168, 0.04);
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(82,196,168,0.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(82, 196, 168, 0.1);
 }
 
-.cl-feature-card:hover::before { opacity: 1; }
+.cl-feature-card:hover::before {
+  opacity: 1;
+}
 
 .cl-feature-icon {
-  width: 48px; height: 48px;
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
-  background: rgba(82,196,168,0.1);
-  border: 1px solid rgba(82,196,168,0.2);
-  display: flex; align-items: center; justify-content: center;
+  background: rgba(82, 196, 168, 0.1);
+  border: 1px solid rgba(82, 196, 168, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--c-teal);
   margin-bottom: 20px;
 }
@@ -485,12 +527,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: background 0.25s ease;
 }
 
-.cl-step:hover { background: rgba(82,196,168,0.04); }
+.cl-step:hover {
+  background: rgba(82, 196, 168, 0.04);
+}
 
 .cl-step-num {
   font-size: 2.5rem;
   font-weight: 900;
-  color: rgba(82,196,168,0.12);
+  color: rgba(82, 196, 168, 0.12);
   margin-bottom: 16px;
   letter-spacing: -2px;
   line-height: 1;
@@ -523,7 +567,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cl-cta-card {
   border-radius: 24px;
   padding: 72px 64px;
-  background: radial-gradient(ellipse 70% 80% at 50% 110%, rgba(82,196,168,0.13) 0%, transparent 70%), rgba(255,255,255,0.03);
+  background: radial-gradient(ellipse 70% 80% at 50% 110%, rgba(82, 196, 168, 0.13) 0%, transparent 70%), rgba(255, 255, 255, 0.03);
   border: 1px solid var(--c-border);
   text-align: center;
   position: relative;
@@ -533,8 +577,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cl-cta-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 60%; height: 1px;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
   background: linear-gradient(90deg, transparent, var(--c-teal-glow), transparent);
 }
 
@@ -573,7 +620,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 
 .cl-btn-primary:hover {
   background: #65d4bb;
-  box-shadow: 0 0 22px rgba(82,196,168,0.5);
+  box-shadow: 0 0 22px rgba(82, 196, 168, 0.5);
   transform: translateY(-1px);
 }
 
@@ -600,7 +647,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .cl-footer {
   margin: 40px 40px 0;
   border-radius: 20px 20px 0 0;
-  background: rgba(255,255,255,0.027);
+  background: rgba(255, 255, 255, 0.027);
   border: 1px solid var(--c-border);
   border-bottom: none;
   overflow: hidden;
@@ -628,11 +675,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 .cl-footer-social-btn {
-  width: 34px; height: 34px;
+  width: 34px;
+  height: 34px;
   border-radius: 7px;
   background: var(--c-surface);
   border: 1px solid var(--c-border);
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--c-subtle);
   transition: all 0.2s ease;
 }
@@ -664,7 +714,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: color 0.16s ease;
 }
 
-.cl-footer-link:hover { color: var(--c-text); }
+.cl-footer-link:hover {
+  color: var(--c-text);
+}
 
 .cl-footer-bottom {
   padding: 20px 60px;
@@ -685,7 +737,10 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   color: var(--c-subtle);
   transition: color 0.16s;
 }
-.cl-footer-bottom-links a:hover { color: var(--c-muted); }
+
+.cl-footer-bottom-links a:hover {
+  color: var(--c-muted);
+}
 
 /* ========================================
    SCROLL REVEAL ANIMATIONS
@@ -701,36 +756,103 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transform: translateY(0);
 }
 
-.cl-reveal-delay-1 { transition-delay: 100ms; }
-.cl-reveal-delay-2 { transition-delay: 200ms; }
-.cl-reveal-delay-3 { transition-delay: 300ms; }
-.cl-reveal-delay-4 { transition-delay: 400ms; }
+.cl-reveal-delay-1 {
+  transition-delay: 100ms;
+}
+
+.cl-reveal-delay-2 {
+  transition-delay: 200ms;
+}
+
+.cl-reveal-delay-3 {
+  transition-delay: 300ms;
+}
+
+.cl-reveal-delay-4 {
+  transition-delay: 400ms;
+}
 
 /* ========================================
    MOBILE
    ======================================== */
 @media (max-width: 1024px) {
-  .cl-hero-content { grid-template-columns: 1fr; gap: 40px; }
-  .cl-hero-right { align-items: flex-start; }
-  .cl-features-grid { grid-template-columns: 1fr 1fr; }
-  .cl-how-steps { grid-template-columns: 1fr 1fr; }
-  .cl-footer-main { grid-template-columns: 1fr 1fr; }
+  .cl-hero-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .cl-hero-right {
+    align-items: flex-start;
+  }
+
+  .cl-features-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cl-how-steps {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cl-footer-main {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-  .cl-header { padding: 0 20px; }
-  .cl-nav { display: none; }
-  .cl-mobile-menu-btn { display: flex; }
-  .cl-hero-content { padding: 100px 20px 60px; }
-  .cl-features { padding: 60px 20px; }
-  .cl-features-grid { grid-template-columns: 1fr; }
-  .cl-how { padding: 60px 20px; }
-  .cl-how-steps { grid-template-columns: 1fr; }
-  .cl-cta { padding: 60px 20px; }
-  .cl-cta-card { padding: 48px 24px; }
-  .cl-footer { margin: 20px 16px 0; }
-  .cl-footer-main { grid-template-columns: 1fr; padding: 40px 24px 32px; }
-  .cl-footer-bottom { padding: 16px 24px; flex-direction: column; gap: 12px; }
+  .cl-header {
+    padding: 0 20px;
+  }
+
+  .cl-nav {
+    display: none;
+  }
+
+  .cl-mobile-menu-btn {
+    display: flex;
+  }
+
+  .cl-hero-content {
+    padding: 100px 20px 60px;
+  }
+
+  .cl-features {
+    padding: 60px 20px;
+  }
+
+  .cl-features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cl-how {
+    padding: 60px 20px;
+  }
+
+  .cl-how-steps {
+    grid-template-columns: 1fr;
+  }
+
+  .cl-cta {
+    padding: 60px 20px;
+  }
+
+  .cl-cta-card {
+    padding: 48px 24px;
+  }
+
+  .cl-footer {
+    margin: 20px 16px 0;
+  }
+
+  .cl-footer-main {
+    grid-template-columns: 1fr;
+    padding: 40px 24px 32px;
+  }
+
+  .cl-footer-bottom {
+    padding: 16px 24px;
+    flex-direction: column;
+    gap: 12px;
+  }
 }
 
 /* ========================================
@@ -738,8 +860,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    ======================================== */
 .cl-mobile-drawer {
   position: fixed;
-  inset: 0; z-index: 850;
-  background: rgba(8,14,14,0.97);
+  inset: 0;
+  z-index: 850;
+  background: rgba(8, 14, 14, 0.97);
   backdrop-filter: blur(16px);
   display: flex;
   flex-direction: column;
@@ -763,11 +886,14 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: color 0.16s ease;
 }
 
-.cl-mobile-nav-link:hover { color: var(--c-text); }
+.cl-mobile-nav-link:hover {
+  color: var(--c-text);
+}
 
 .cl-drawer-close {
   position: absolute;
-  top: 20px; right: 20px;
+  top: 20px;
+  right: 20px;
   color: var(--c-muted);
   padding: 8px;
 }
@@ -792,7 +918,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   transition: background 0.2s ease;
 }
 
-.cl-stat:hover { background: rgba(82,196,168,0.04); }
+.cl-stat:hover {
+  background: rgba(82, 196, 168, 0.04);
+}
 
 .cl-stat-num {
   font-size: 2rem;
@@ -802,7 +930,9 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   margin-bottom: 4px;
 }
 
-.cl-stat-num span { color: var(--c-teal); }
+.cl-stat-num span {
+  color: var(--c-teal);
+}
 
 .cl-stat-label {
   font-size: 0.83rem;
@@ -810,5 +940,8 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 }
 
 @media (max-width: 768px) {
-  .cl-stats-strip { grid-template-columns: 1fr 1fr; padding: 0 16px; }
+  .cl-stats-strip {
+    grid-template-columns: 1fr 1fr;
+    padding: 0 16px;
+  }
 }

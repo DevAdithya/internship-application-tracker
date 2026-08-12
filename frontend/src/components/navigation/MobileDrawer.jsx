@@ -35,9 +35,10 @@ export default function MobileDrawer({
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{
               width: 36, height: 36, borderRadius: 10,
-              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+              background: 'linear-gradient(135deg, #1a3a35 0%, #0f2420 100%)',
+              border: '1px solid rgba(82,196,168,0.45)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff',
-              boxShadow: '0 0 16px rgba(99,102,241,0.35)',
+              boxShadow: '0 0 16px rgba(82,196,168,0.3)',
             }}>
               <Briefcase size={18} />
             </div>
@@ -46,7 +47,7 @@ export default function MobileDrawer({
                 InternTrack
                 <span style={{
                   fontSize: 8, fontWeight: 900, letterSpacing: '0.06em', textTransform: 'uppercase',
-                  background: 'linear-gradient(90deg, #6366f1, #8b5cf6)', color: '#fff', padding: '2px 5px', borderRadius: 4,
+                  background: 'linear-gradient(90deg, #52c4a8, #3a9e88)', color: '#0a1212', padding: '2px 5px', borderRadius: 4,
                 }}>PRO</span>
               </div>
               <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>Application Platform</div>

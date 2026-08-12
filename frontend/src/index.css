@@ -1,87 +1,97 @@
 /* ==========================================================================
    INTERNTRACK PRO - MODERN GLASSMORPHIC DESIGN SYSTEM
+   Teal aesthetic — unified with ClientApp.css home page
    ========================================================================== */
 
-:root {
-  /* Color Palette - Dark Mode (Default) */
-  --bg-primary: #090d16;
-  --bg-secondary: #0f172a;
-  --bg-tertiary: #1e293b;
-  --bg-surface: rgba(15, 23, 42, 0.75);
-  --bg-glass: rgba(30, 41, 59, 0.45);
-  --bg-glass-hover: rgba(51, 65, 85, 0.5);
-  --bg-glass-card: rgba(15, 23, 42, 0.65);
-  
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(99, 102, 241, 0.4);
-  --border-focus: rgba(99, 102, 241, 0.7);
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --text-subtle: #64748b;
-  
-  /* Brand Accent Colors */
-  --accent-primary: #6366f1;
-  --accent-primary-hover: #4f46e5;
-  --accent-secondary: #8b5cf6;
-  --accent-glow: rgba(99, 102, 241, 0.25);
-  
-  /* Status Colors */
-  --status-wishlist: #06b6d4;
-  --status-wishlist-bg: rgba(6, 182, 212, 0.12);
-  --status-applied: #3b82f6;
-  --status-applied-bg: rgba(59, 130, 246, 0.12);
-  --status-assessment: #8b5cf6;
-  --status-assessment-bg: rgba(139, 92, 246, 0.12);
-  --status-interview: #f59e0b;
-  --status-interview-bg: rgba(245, 158, 11, 0.12);
-  --status-offered: #10b981;
-  --status-offered-bg: rgba(16, 185, 129, 0.12);
-  --status-rejected: #f43f5e;
-  --status-rejected-bg: rgba(244, 63, 94, 0.12);
+:root {
+  /* Color Palette - Dark Mode (Default) — matches ClientApp.css */
+  --bg-primary:        #080e0e;
+  --bg-secondary:      #0a1212;
+  --bg-tertiary:       #0f1c1c;
+  --bg-surface:        rgba(255,255,255,0.04);
+  --bg-glass:          rgba(255,255,255,0.055);
+  --bg-glass-hover:    rgba(82,196,168,0.07);
+  --bg-glass-card:     rgba(255,255,255,0.05);
+
+  --border-color:      rgba(255,255,255,0.07);
+  --border-hover:      rgba(82,196,168,0.45);
+  --border-focus:      rgba(82,196,168,0.7);
+
+  --text-main:         #e8f0ef;
+  --text-muted:        rgba(232,240,239,0.55);
+  --text-subtle:       rgba(232,240,239,0.32);
+
+  /* Brand Accent Colors — teal from ClientApp */
+  --accent-primary:        #52c4a8;
+  --accent-primary-hover:  #65d4bb;
+  --accent-secondary:      #3a9e88;
+  --accent-glow:           rgba(82,196,168,0.25);
+
+  /* Status Colors — kept the same distinctive colors */
+  --status-wishlist:        #06b6d4;
+  --status-wishlist-bg:     rgba(6, 182, 212, 0.12);
+  --status-applied:         #52c4a8;
+  --status-applied-bg:      rgba(82,196,168,0.12);
+  --status-assessment:      #8b5cf6;
+  --status-assessment-bg:   rgba(139, 92, 246, 0.12);
+  --status-interview:       #f59e0b;
+  --status-interview-bg:    rgba(245, 158, 11, 0.12);
+  --status-offered:         #10b981;
+  --status-offered-bg:      rgba(16, 185, 129, 0.12);
+  --status-rejected:        #f43f5e;
+  --status-rejected-bg:     rgba(244, 63, 94, 0.12);
 
   /* Elevation Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.2);
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:   0 4px 20px rgba(0,0,0,0.45);
+  --shadow-lg:   0 10px 30px rgba(0,0,0,0.6);
+  --shadow-glow: 0 0 25px rgba(82,196,168,0.2);
 
-  /* Typography */
-  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-heading: 'Outfit', sans-serif;
+  /* Typography — Inter, same as ClientApp */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Inter', sans-serif;
+  --font-body:    'Inter', sans-serif;
 
   /* Border Radius */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-sm:   8px;
+  --radius-md:   14px;
+  --radius-lg:   20px;
   --radius-full: 9999px;
 
   /* Transitions */
-  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-smooth: 350ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ClientApp-specific aliases (for shared utility use) */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --c-teal:      #52c4a8;
+  --c-teal-dim:  rgba(82,196,168,0.18);
+  --c-teal-glow: rgba(82,196,168,0.35);
 }
 
 [data-theme="light"] {
-  --bg-primary: #f8fafc;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #f1f5f9;
-  --bg-surface: rgba(255, 255, 255, 0.85);
-  --bg-glass: rgba(241, 245, 249, 0.75);
-  --bg-glass-hover: rgba(226, 232, 240, 0.9);
-  --bg-glass-card: rgba(255, 255, 255, 0.9);
+  --bg-primary:     #f0f7f6;
+  --bg-secondary:   #ffffff;
+  --bg-tertiary:    #e6f3f1;
+  --bg-surface:     rgba(255,255,255,0.85);
+  --bg-glass:       rgba(232,248,245,0.75);
+  --bg-glass-hover: rgba(82,196,168,0.12);
+  --bg-glass-card:  rgba(255,255,255,0.9);
 
-  --border-color: rgba(0, 0, 0, 0.08);
-  --border-hover: rgba(99, 102, 241, 0.5);
+  --border-color: rgba(82,196,168,0.15);
+  --border-hover: rgba(82,196,168,0.5);
 
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --text-subtle: #94a3b8;
+  --text-main:   #0a1212;
+  --text-muted:  #3d5c57;
+  --text-subtle: #7da89f;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 20px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.12);
-  --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.15);
+  --shadow-sm:   0 2px 8px rgba(0,0,0,0.05);
+  --shadow-md:   0 4px 20px rgba(0,0,0,0.08);
+  --shadow-lg:   0 10px 30px rgba(0,0,0,0.12);
+  --shadow-glow: 0 0 25px rgba(82,196,168,0.18);
 }
 
 /* Global Reset & Base */
@@ -97,10 +107,10 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   min-height: 100vh;
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
-    radial-gradient(at 50% 50%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
+  background-image:
+    radial-gradient(at 0% 0%,   rgba(82,196,168,0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(82,196,168,0.06) 0px, transparent 50%),
+    radial-gradient(at 50% 50%,  rgba(10,28,24,0.5)     0px, transparent 60%);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
@@ -126,66 +136,50 @@ a:hover {
 }
 
 /* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-primary);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--bg-tertiary);
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-subtle);
-}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: rgba(82,196,168,0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(82,196,168,0.4); }
 
-/* Premium Navigation Animations & Effects */
+/* Animations */
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
 .animated-gradient-border {
-  background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4, #6366f1);
+  background: linear-gradient(90deg, #52c4a8, #3a9e88, #06b6d4, #52c4a8);
   background-size: 300% 300%;
   animation: gradientShift 6s ease infinite;
 }
 
 .nav-glow-pulse {
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 15px rgba(82,196,168,0.2);
   transition: box-shadow 0.3s ease;
 }
 
 .nav-glow-pulse:hover {
-  box-shadow: 0 0 25px rgba(99, 102, 241, 0.45);
+  box-shadow: 0 0 25px rgba(82,196,168,0.4);
 }
 
-/* Utility Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
-  50% { box-shadow: 0 0 30px rgba(99, 102, 241, 0.6); }
+  0%, 100% { box-shadow: 0 0 15px rgba(82,196,168,0.3); }
+  50%       { box-shadow: 0 0 30px rgba(82,196,168,0.6); }
 }
 
-.animate-fade {
-  animation: fadeIn 300ms var(--transition-smooth) forwards;
-}
-
-.animate-slide {
-  animation: slideUp 400ms var(--transition-smooth) forwards;
-}
+.animate-fade  { animation: fadeIn  300ms var(--transition-smooth) forwards; }
+.animate-slide { animation: slideUp 400ms var(--transition-smooth) forwards; }
 
 /* Glassmorphism Panel Class */
 .glass-panel {
@@ -242,7 +236,7 @@ a:hover {
 .badge-applied {
   background: var(--status-applied-bg);
   color: var(--status-applied);
-  border: 1px solid rgba(59, 130, 246, 0.3);
+  border: 1px solid rgba(82,196,168,0.3);
 }
 .badge-applied .badge-dot { background: var(--status-applied); }
 
