@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './ClientApp.css';
+import { ClientSubPage } from './ClientPages.jsx';
 
 /* ------------------------------------------------------------------ */
 /* SVG Icons (inline — no lucide dependency leak into client bundle)  */
@@ -289,19 +290,34 @@ function ClientHeader({ onSignIn, onSignUp }) {
 /* ------------------------------------------------------------------ */
 /* Client Footer                                                        */
 /* ------------------------------------------------------------------ */
-function ClientFooter() {
+function ClientFooter({ setPage }) {
   const cols = [
     {
       title: 'Platform',
-      links: ['Browse Internships', 'Track Applications', 'Career Resources', 'Interview Prep'],
+      links: [
+        { label: 'Browse Internships', page: 'browse-internships' },
+        { label: 'Track Applications', page: 'track-applications' },
+        { label: 'Career Resources', page: 'career-resources' },
+        { label: 'Interview Prep', page: 'interview-prep' },
+      ],
     },
     {
       title: 'Company',
-      links: ['About Us', 'Blog', 'Careers', 'Press'],
+      links: [
+        { label: 'About Us', page: 'about-us' },
+        { label: 'Blog', page: 'blog' },
+        { label: 'Careers', page: 'careers' },
+        { label: 'Press', page: 'press' },
+      ],
     },
     {
       title: 'Support',
-      links: ['Help Center', 'Privacy Policy', 'Terms of Service', 'Contact Us'],
+      links: [
+        { label: 'Help Center', page: 'help-center' },
+        { label: 'Privacy Policy', page: 'privacy-policy' },
+        { label: 'Terms of Service', page: 'terms-of-service' },
+        { label: 'Contact Us', page: 'contact-us' },
+      ],
     },
   ];
 
@@ -326,7 +342,7 @@ function ClientFooter() {
               { Icon: IconTelegram, label: 'Telegram', href: '#telegram' },
               { Icon: IconTwitterX, label: 'X / Twitter', href: '#twitter' },
               { Icon: IconDiscord, label: 'Discord', href: '#discord' },
-              { Icon: IconLinkedin, label: 'LinkedIn', href: '#linkedin' },
+              { Icon: IconLinkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/dev7z' },
             ].map(({ Icon, label, href }) => (
               <a key={label} href={href} className="cl-footer-social-btn" aria-label={label}>
                 <Icon />
@@ -340,8 +356,13 @@ function ClientFooter() {
           <div key={col.title}>
             <div className="cl-footer-col-title">{col.title}</div>
             <div className="cl-footer-links">
-              {col.links.map(link => (
-                <a key={link} href="#" className="cl-footer-link">{link}</a>
+              {col.links.map(({ label, page }) => (
+                <button
+                  key={label}
+                  onClick={() => setPage(page)}
+                  className="cl-footer-link"
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', padding: 0 }}
+                >{label}</button>
               ))}
             </div>
           </div>
@@ -351,9 +372,9 @@ function ClientFooter() {
       <div className="cl-footer-bottom">
         <span>© {new Date().getFullYear()} InternTrack. All rights reserved.</span>
         <div className="cl-footer-bottom-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Cookies</a>
+          <button onClick={() => setPage('privacy-policy')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontSize: 'inherit' }}>Privacy</button>
+          <button onClick={() => setPage('terms-of-service')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontSize: 'inherit' }}>Terms</button>
+          <button onClick={() => setPage('help-center')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontSize: 'inherit' }}>Cookies</button>
         </div>
       </div>
     </footer>
@@ -364,7 +385,13 @@ function ClientFooter() {
 /* Main ClientApp                                                       */
 /* ------------------------------------------------------------------ */
 export default function ClientApp() {
+  const [currentPage, setCurrentPage] = useState('home');
   useScrollReveal();
+
+  // If a subpage is active, render it instead of the home page
+  if (currentPage !== 'home') {
+    return <ClientSubPage page={currentPage} onBack={() => setCurrentPage('home')} />;
+  }
 
   const features = [
     { Icon: IconTarget,     title: 'Smart Job Discovery',       desc: 'Browse hundreds of internship listings curated for students — filtered by domain, location, and tech stack.' },
@@ -509,7 +536,7 @@ export default function ClientApp() {
       </section>
 
       {/* FOOTER */}
-      <ClientFooter />
+      <ClientFooter setPage={setCurrentPage} />
 
       {/* Floating corner icon (like Neurovia) */}
       <button className="cl-corner-btn" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} title="Back to top">

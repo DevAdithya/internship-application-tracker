@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../nav.css';
 import {
   ArrowLeft, User, Mail, Phone, MapPin, FileText,
-  Lock, Save, CheckCircle2, Sparkles, ExternalLink, ShieldCheck,
+  Lock, Save, CheckCircle2, Sparkles, ExternalLink, ShieldCheck, Upload
 } from 'lucide-react';
 
 const PRESETS = [
@@ -57,6 +57,22 @@ export default function ProfileEditPage({ currentUser, onSaveProfile, onBackToAp
   const [saved, setSaved] = useState(false);
   const [errors, setErrors] = useState({});
 
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        if (showToast) showToast('File size must be under 5MB', 'error');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result);
+        if (showToast) showToast('Photo loaded from device!', 'info');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSave = (e) => {
     e.preventDefault();
     setErrors({});
@@ -85,8 +101,8 @@ export default function ProfileEditPage({ currentUser, onSaveProfile, onBackToAp
             <ArrowLeft size={18} />
           </button>
           <div>
-            <div className="profile-header-title">Edit Account Profile</div>
-            <div className="profile-header-sub">Manage your personal details, avatar, and security settings</div>
+            <div className="profile-header-title">Edit {currentUser?.role === 'admin' ? 'Admin' : 'Client'} Profile</div>
+            <div className="profile-header-sub">Manage your personal details, avatar photo, and security settings</div>
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -127,10 +143,23 @@ export default function ProfileEditPage({ currentUser, onSaveProfile, onBackToAp
             {/* Avatar Card */}
             <div className="profile-card">
               <div className="profile-card-title">
-                <Sparkles size={16} style={{ color: '#818cf8' }} /> Profile Avatar
+                <Sparkles size={16} style={{ color: '#52c4a8' }} /> Profile Avatar
               </div>
               <div className="avatar-picker">
-                <img src={avatar} alt="Current avatar" className="avatar-preview" />
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+                  <img src={avatar} alt="Current avatar" className="avatar-preview" />
+                  <label style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 6,
+                    padding: '7px 14px', borderRadius: 'var(--radius-sm)',
+                    background: 'rgba(82,196,168,0.15)', border: '1px solid rgba(82,196,168,0.35)',
+                    color: '#52c4a8', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}>
+                    <Upload size={14} /> Upload Photo from Device
+                    <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFileUpload} />
+                  </label>
+                </div>
+
                 <div className="avatar-grid-section">
                   <div className="avatar-grid-label">Choose a preset avatar:</div>
                   <div className="avatar-grid">
@@ -144,14 +173,6 @@ export default function ProfileEditPage({ currentUser, onSaveProfile, onBackToAp
                         <img src={url} alt={`Preset ${i+1}`} />
                       </button>
                     ))}
-                  </div>
-                  <div className="form-field">
-                    <label className="form-label">Custom Avatar URL</label>
-                    <div className="form-input-wrap">
-                      <input className="form-input form-input-no-icon" style={{ paddingLeft: 12 }}
-                        type="url" placeholder="https://example.com/avatar.png"
-                        value={avatar} onChange={e => setAvatar(e.target.value)} />
-                    </div>
                   </div>
                 </div>
               </div>
