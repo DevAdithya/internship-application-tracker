@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../nav.css';
 import {
   ArrowLeft, User, Mail, Phone, MapPin, FileText,
-  Lock, Save, CheckCircle2, Sparkles, ExternalLink, ShieldCheck, Upload
+  Lock, Save, CheckCircle2, Sparkles, ExternalLink, ShieldCheck, Upload, Sun, Moon
 } from 'lucide-react';
 
 const PRESETS = [
@@ -41,7 +41,7 @@ function PasswordStrength({ password }) {
   );
 }
 
-export default function ProfileEditPage({ currentUser, onSaveProfile, onBackToApp, showToast }) {
+export default function ProfileEditPage({ currentUser, onSaveProfile, onBackToApp, showToast, theme, toggleTheme }) {
   const [activeTab, setActiveTab] = useState('general');
   const [name, setName] = useState(currentUser?.name || '');
   const [email, setEmail] = useState(currentUser?.email || '');
@@ -106,6 +106,14 @@ export default function ProfileEditPage({ currentUser, onSaveProfile, onBackToAp
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {toggleTheme && (
+            <button className="topbar-icon-btn" onClick={toggleTheme} title="Toggle Theme">
+              {theme === 'dark'
+                ? <Sun size={18} style={{ color: '#fbbf24' }} />
+                : <Moon size={18} style={{ color: '#52c4a8' }} />
+              }
+            </button>
+          )}
           {saved && (
             <span className="profile-saved-badge">
               <CheckCircle2 size={14} /> Saved

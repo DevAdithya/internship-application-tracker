@@ -98,8 +98,7 @@ export default function AuthPage({ initialMode = 'signin', onLoginSuccess, onBac
       <header className="auth-header">
         <div className="auth-brand" onClick={() => window.location.href = '/'} style={{ cursor: 'pointer' }}>
           <div className="auth-brand-icon"><Briefcase size={20} /></div>
-          <div className="auth-brand-name">Intern<span style={{ color: '#52c4a8' }}>Track</span></div>
-          <span className="auth-brand-badge">PRO</span>
+          <div className="auth-brand-name">Intern<span>Track</span></div>
         </div>
         <div className="auth-header-actions">
           <button className="topbar-icon-btn" onClick={toggleTheme} title="Toggle Theme">
@@ -364,7 +363,7 @@ export default function AuthPage({ initialMode = 'signin', onLoginSuccess, onBac
         </div>
       </main>
 
-      <footer className="auth-footer">© 2026 InternTrack PRO • Enterprise Application Tracking Platform</footer>
+      <footer className="auth-footer">© 2026 InternTrack • Enterprise Application Tracking Platform</footer>
     </div>
   );
 }

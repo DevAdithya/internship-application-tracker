@@ -1,5 +1,5 @@
 /* ==========================================================================
-   INTERNTRACK PRO — NAVIGATION & PAGE STYLES (Pure CSS, No Tailwind)
+   INTERNTRACK — NAVIGATION & PAGE STYLES (Pure CSS, No Tailwind)
    ========================================================================== */
 
 /* ─── CSS Custom Properties ─────────────────────────────────────────────── */
@@ -159,7 +159,7 @@ a { color: var(--accent); text-decoration: none; }
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #52c4a8;
   box-shadow: 0 0 20px rgba(82,196,168,0.3), 0 4px 12px rgba(0,0,0,0.3);
   transition: transform 0.2s;
 }
@@ -169,12 +169,15 @@ a { color: var(--accent); text-decoration: none; }
 .sidebar-brand-name {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
   font-size: 15px;
   font-weight: 800;
   color: var(--text-main);
   letter-spacing: -0.02em;
   white-space: nowrap;
+}
+.sidebar-brand-name span {
+  color: #52c4a8;
 }
 .sidebar-brand-tag {
   font-size: 8px;
@@ -1029,6 +1032,7 @@ a { color: var(--accent); text-decoration: none; }
   box-shadow: 0 0 18px rgba(82, 196, 168, 0.3), 0 4px 10px rgba(0,0,0,0.3);
 }
 .auth-brand-name { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; color: #e8f0ef; }
+.auth-brand-name span { color: #52c4a8; }
 .auth-brand-badge {
   font-size: 8px; font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase;
   background: linear-gradient(135deg, #52c4a8 0%, #3da88e 100%);
@@ -1396,6 +1400,121 @@ a { color: var(--accent); text-decoration: none; }
   text-align: center;
   font-size: 11.5px;
   color: rgba(232, 240, 239, 0.4);
+}
+
+/* Light mode overrides for Auth pages */
+[data-theme="light"] .auth-page {
+  background: var(--bg-primary);
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-bg-signin {
+  background:
+    radial-gradient(ellipse at 15% 20%, rgba(82, 196, 168, 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(54, 156, 132, 0.20) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(220, 245, 240, 0.8) 0%, transparent 55%);
+}
+[data-theme="light"] .auth-bg-signup {
+  background:
+    radial-gradient(ellipse at 85% 15%, rgba(82, 196, 168, 0.25) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 85%, rgba(54, 156, 132, 0.20) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(220, 245, 240, 0.8) 0%, transparent 55%);
+}
+[data-theme="light"] .auth-brand-name {
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-back-btn {
+  background: rgba(82, 196, 168, 0.08);
+  border-color: rgba(82, 196, 168, 0.25);
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-card {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(82, 196, 168, 0.3);
+  box-shadow: 0 24px 60px rgba(0,0,0,0.08), 0 0 60px rgba(82, 196, 168, 0.15);
+}
+[data-theme="light"] .auth-hero-panel {
+  background: linear-gradient(145deg, #e6f5f2 0%, #d4ede7 50%, #eef8f6 100%);
+  border-left-color: rgba(82, 196, 168, 0.3);
+}
+[data-theme="light"] .auth-hero-panel.hero-left {
+  border-right-color: rgba(82, 196, 168, 0.3);
+}
+[data-theme="light"] .auth-hero-title {
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-hero-subtitle {
+  color: var(--text-muted);
+}
+[data-theme="light"] .auth-hero-mockup {
+  background: rgba(82, 196, 168, 0.08);
+  border-color: rgba(82, 196, 168, 0.25);
+}
+[data-theme="light"] .auth-hero-mockup-header {
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-hero-mockup-row {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(82, 196, 168, 0.2);
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-hero-switch {
+  border-top-color: rgba(82, 196, 168, 0.2);
+  color: var(--text-muted);
+}
+[data-theme="light"] .auth-form-title {
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-form-subtitle {
+  color: var(--text-muted);
+}
+[data-theme="light"] .auth-label {
+  color: var(--text-muted);
+}
+[data-theme="light"] .auth-input {
+  background: rgba(240, 247, 246, 0.9);
+  border: 1px solid rgba(82, 196, 168, 0.25);
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-input:focus {
+  background: #ffffff;
+}
+[data-theme="light"] .auth-input::placeholder {
+  color: var(--text-subtle);
+}
+[data-theme="light"] .auth-select {
+  background: #f0f7f6;
+  border: 1px solid rgba(82, 196, 168, 0.25);
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-select option {
+  background: #ffffff;
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-checkbox-label {
+  color: var(--text-muted);
+}
+[data-theme="light"] .auth-social-btn {
+  background: rgba(240, 247, 246, 0.9);
+  border: 1px solid rgba(82, 196, 168, 0.25);
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-social-btn:hover {
+  background: rgba(82, 196, 168, 0.12);
+}
+[data-theme="light"] .auth-demo-box {
+  background: rgba(82, 196, 168, 0.06);
+  border-color: rgba(82, 196, 168, 0.25);
+}
+[data-theme="light"] .auth-demo-title {
+  color: var(--text-muted);
+}
+[data-theme="light"] .auth-demo-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(82, 196, 168, 0.3);
+  color: var(--text-main);
+}
+[data-theme="light"] .auth-footer {
+  color: var(--text-subtle);
 }
 
 /* Mobile: full-width form panels */

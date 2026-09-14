@@ -29,18 +29,17 @@ function PageHero({ label, title, subtitle }) {
     <div style={{ textAlign: 'center', padding: '80px 24px 48px', maxWidth: 700, margin: '0 auto' }}>
       <div style={{
         display: 'inline-flex', alignItems: 'center', gap: 8,
-        background: 'rgba(82,196,168,0.1)', border: '1px solid rgba(82,196,168,0.25)',
-        color: '#52c4a8', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em',
+        background: 'var(--c-teal-dim, rgba(82,196,168,0.1))', border: '1px solid var(--c-border-h, rgba(82,196,168,0.25))',
+        color: 'var(--c-teal, #52c4a8)', fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.1em',
         textTransform: 'uppercase', padding: '5px 14px', borderRadius: 999, marginBottom: 24,
       }}>{label}</div>
       <h1 style={{
         fontSize: 'clamp(2rem, 5vw, 3.2rem)', fontWeight: 900,
         letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 20,
-        background: 'linear-gradient(135deg, #e8f0ef 0%, #52c4a8 100%)',
-        WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+        color: 'var(--c-text, #e8f0ef)',
       }}>{title}</h1>
       {subtitle && (
-        <p style={{ color: 'rgba(232,240,239,0.55)', fontSize: '1.05rem', lineHeight: 1.7 }}>{subtitle}</p>
+        <p style={{ color: 'var(--c-muted, rgba(232,240,239,0.55))', fontSize: '1.05rem', lineHeight: 1.7 }}>{subtitle}</p>
       )}
     </div>
   );
@@ -49,46 +48,77 @@ function PageHero({ label, title, subtitle }) {
 function Card({ children, style = {} }) {
   return (
     <div style={{
-      background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+      background: 'var(--c-card-bg, rgba(255,255,255,0.04))', border: '1px solid var(--c-card-bdr, rgba(255,255,255,0.08))',
       borderRadius: 16, padding: '28px 32px', transition: 'border-color 0.2s', ...style,
     }}
-    onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(82,196,168,0.3)'; }}
-    onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
+    onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--c-border-h, rgba(82,196,168,0.3))'; }}
+    onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--c-card-bdr, rgba(255,255,255,0.08))'; }}
     >{children}</div>
   );
 }
 
-function PageWrapper({ children, onBack }) {
+function PageWrapper({ children, onBack, theme, toggleTheme }) {
   usePageTop();
   return (
-    <div style={{ minHeight: '100vh', background: '#080e0e', fontFamily: "'Inter', -apple-system, sans-serif", color: '#e8f0ef' }}>
+    <div style={{ minHeight: '100vh', background: 'var(--c-bg, #080e0e)', fontFamily: "'Inter', -apple-system, sans-serif", color: 'var(--c-text, #e8f0ef)' }}>
       <div style={{
         position: 'sticky', top: 0, zIndex: 100,
-        background: 'rgba(8,14,14,0.85)', backdropFilter: 'blur(16px)',
-        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: 'var(--c-surface, rgba(8,14,14,0.85))', backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid var(--c-border, rgba(255,255,255,0.06))',
         padding: '0 32px', display: 'flex', alignItems: 'center',
         justifyContent: 'space-between', height: 60,
       }}>
         <button onClick={onBack} style={{
           display: 'flex', alignItems: 'center', gap: 8,
           background: 'none', border: 'none', cursor: 'pointer',
-          color: '#e8f0ef', fontSize: '1rem', fontWeight: 800, letterSpacing: '-0.02em',
+          color: 'var(--c-text, #e8f0ef)', fontSize: '1rem', fontWeight: 800, letterSpacing: '-0.02em',
         }}>
           <span style={{
-            width: 30, height: 30, borderRadius: 8,
-            background: 'rgba(82,196,168,0.15)', border: '1px solid rgba(82,196,168,0.35)',
+            width: 36, height: 36, borderRadius: 9,
+            background: 'linear-gradient(135deg, #1a3a35 0%, #0f2420 100%)',
+            border: '1px solid rgba(82, 196, 168, 0.45)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#52c4a8',
+            boxShadow: '0 0 16px rgba(82,196,168,0.3)',
+            flexShrink: 0,
           }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#52c4a8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
             </svg>
           </span>
-          Intern<span style={{ color: '#52c4a8' }}>Track</span>
+          <span style={{ fontSize: 17, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--c-text, #e8f0ef)' }}>
+            Intern<span style={{ color: '#52c4a8' }}>Track</span>
+          </span>
         </button>
-        <BackButton onBack={onBack} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          {toggleTheme && (
+            <button
+              onClick={toggleTheme}
+              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+              style={{
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                width: 36, height: 36, borderRadius: 10,
+                background: 'var(--c-teal-dim, rgba(82,196,168,0.1))',
+                border: '1px solid var(--c-border, rgba(82,196,168,0.3))',
+                color: 'var(--c-teal, #52c4a8)', cursor: 'pointer', transition: 'all 0.2s',
+              }}
+            >
+              {theme === 'dark' ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              )}
+            </button>
+          )}
+          <BackButton onBack={onBack} />
+        </div>
       </div>
       <div style={{ maxWidth: 1080, margin: '0 auto', padding: '0 24px 80px' }}>{children}</div>
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '24px 32px', textAlign: 'center', color: 'rgba(232,240,239,0.35)', fontSize: '0.8rem' }}>
+      <div style={{ borderTop: '1px solid var(--c-border, rgba(255,255,255,0.06))', padding: '24px 32px', textAlign: 'center', color: 'var(--c-subtle, rgba(232,240,239,0.35))', fontSize: '0.8rem' }}>
         © {new Date().getFullYear()} InternTrack. All rights reserved.
       </div>
     </div>
@@ -96,7 +126,7 @@ function PageWrapper({ children, onBack }) {
 }
 
 /* ---- Browse Internships ---- */
-export function BrowseInternshipsPage({ onBack }) {
+export function BrowseInternshipsPage({ onBack, theme, toggleTheme }) {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('All');
   const domains = ['All', 'Engineering', 'Design', 'Marketing', 'Finance', 'Data Science'];
@@ -116,18 +146,18 @@ export function BrowseInternshipsPage({ onBack }) {
     (i.company.toLowerCase().includes(search.toLowerCase()) || i.role.toLowerCase().includes(search.toLowerCase()))
   );
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Platform" title="Browse Internships" subtitle="Discover hundreds of curated internship opportunities tailored for students and early-career professionals." />
       <div style={{ display: 'flex', gap: 12, marginBottom: 32, flexWrap: 'wrap' }}>
         <div style={{ flex: 1, minWidth: 240, position: 'relative' }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,239,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)' }}>
             <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
           </svg>
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search companies or roles..." style={{ width: '100%', padding: '12px 14px 12px 42px', borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#e8f0ef', fontSize: '0.9rem', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search companies or roles..." style={{ width: '100%', padding: '12px 14px 12px 42px', borderRadius: 10, background: 'var(--c-surface)', border: '1px solid var(--c-border)', color: 'var(--c-text)', fontSize: '0.9rem', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           {domains.map(d => (
-            <button key={d} onClick={() => setFilter(d)} style={{ padding: '10px 16px', borderRadius: 10, fontSize: '0.82rem', fontWeight: 600, border: '1px solid', borderColor: filter === d ? 'rgba(82,196,168,0.5)' : 'rgba(255,255,255,0.1)', background: filter === d ? 'rgba(82,196,168,0.15)' : 'rgba(255,255,255,0.04)', color: filter === d ? '#52c4a8' : 'rgba(232,240,239,0.6)', cursor: 'pointer', transition: 'all 0.2s' }}>{d}</button>
+            <button key={d} onClick={() => setFilter(d)} style={{ padding: '10px 16px', borderRadius: 10, fontSize: '0.82rem', fontWeight: 600, border: '1px solid', borderColor: filter === d ? 'var(--c-teal)' : 'var(--c-border)', background: filter === d ? 'var(--c-teal-dim)' : 'var(--c-surface)', color: filter === d ? 'var(--c-teal)' : 'var(--c-muted)', cursor: 'pointer', transition: 'all 0.2s' }}>{d}</button>
           ))}
         </div>
       </div>
@@ -135,25 +165,25 @@ export function BrowseInternshipsPage({ onBack }) {
         {filtered.map((job, i) => (
           <Card key={i} style={{ display: 'flex', flexDirection: 'column', gap: 14, cursor: 'pointer' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ width: 44, height: 44, borderRadius: 10, fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>{job.logo}</div>
-              <div><div style={{ fontWeight: 700, fontSize: '0.95rem' }}>{job.company}</div><div style={{ color: 'rgba(232,240,239,0.5)', fontSize: '0.78rem' }}>{job.location}</div></div>
+              <div style={{ width: 44, height: 44, borderRadius: 10, fontSize: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--c-surface)', border: '1px solid var(--c-border)' }}>{job.logo}</div>
+              <div><div style={{ fontWeight: 700, fontSize: '0.95rem', color: 'var(--c-text)' }}>{job.company}</div><div style={{ color: 'var(--c-muted)', fontSize: '0.78rem' }}>{job.location}</div></div>
             </div>
-            <div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{job.role}</div>
+            <div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--c-text)' }}>{job.role}</div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <span style={{ fontSize: '0.72rem', padding: '3px 10px', borderRadius: 999, background: 'rgba(82,196,168,0.12)', border: '1px solid rgba(82,196,168,0.25)', color: '#52c4a8' }}>{job.domain}</span>
-              <span style={{ fontSize: '0.72rem', padding: '3px 10px', borderRadius: 999, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(232,240,239,0.55)' }}>{job.type}</span>
+              <span style={{ fontSize: '0.72rem', padding: '3px 10px', borderRadius: 999, background: 'var(--c-teal-dim)', border: '1px solid rgba(82,196,168,0.25)', color: 'var(--c-teal)' }}>{job.domain}</span>
+              <span style={{ fontSize: '0.72rem', padding: '3px 10px', borderRadius: 999, background: 'var(--c-surface)', border: '1px solid var(--c-border)', color: 'var(--c-muted)' }}>{job.type}</span>
             </div>
-            <button style={{ padding: '9px', borderRadius: 8, border: '1px solid rgba(82,196,168,0.3)', background: 'rgba(82,196,168,0.1)', color: '#52c4a8', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }}>Apply Now →</button>
+            <button style={{ padding: '9px', borderRadius: 8, border: '1px solid rgba(82,196,168,0.3)', background: 'var(--c-teal-dim)', color: 'var(--c-teal)', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }}>Apply Now →</button>
           </Card>
         ))}
       </div>
-      {filtered.length === 0 && <div style={{ textAlign: 'center', padding: 60, color: 'rgba(232,240,239,0.4)' }}>No internships found.</div>}
+      {filtered.length === 0 && <div style={{ textAlign: 'center', padding: 60, color: 'var(--c-muted)' }}>No internships found.</div>}
     </PageWrapper>
   );
 }
 
 /* ---- Track Applications ---- */
-export function TrackApplicationsPage({ onBack }) {
+export function TrackApplicationsPage({ onBack, theme, toggleTheme }) {
   const stages = [
     { label: 'Wishlist', color: '#64748b', count: 3, apps: ['Netflix', 'Spotify', 'Uber'] },
     { label: 'Applied', color: '#3b82f6', count: 5, apps: ['Google', 'Meta', 'Apple', 'Amazon', 'Microsoft'] },
@@ -168,43 +198,43 @@ export function TrackApplicationsPage({ onBack }) {
     { label: 'Offers', value: '1', icon: '🎉' },
   ];
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Platform" title="Track Applications" subtitle="Stay on top of every application with your personal internship pipeline." />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16, marginBottom: 40 }}>
         {stats.map((s, i) => (
           <Card key={i} style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 28, marginBottom: 8 }}>{s.icon}</div>
-            <div style={{ fontSize: '2rem', fontWeight: 900, color: '#52c4a8' }}>{s.value}</div>
-            <div style={{ color: 'rgba(232,240,239,0.55)', fontSize: '0.82rem', marginTop: 4 }}>{s.label}</div>
+            <div style={{ fontSize: '2rem', fontWeight: 900, color: 'var(--c-teal)' }}>{s.value}</div>
+            <div style={{ color: 'var(--c-muted)', fontSize: '0.82rem', marginTop: 4 }}>{s.label}</div>
           </Card>
         ))}
       </div>
-      <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 20, color: 'rgba(232,240,239,0.7)' }}>Your Application Pipeline</h2>
+      <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: 20, color: 'var(--c-text)' }}>Your Application Pipeline</h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(190px, 1fr))', gap: 16 }}>
         {stages.map((stage, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, padding: 20, borderTop: `3px solid ${stage.color}` }}>
+          <div key={i} style={{ background: 'var(--c-card-bg)', border: '1px solid var(--c-card-bdr)', borderRadius: 14, padding: 20, borderTop: `3px solid ${stage.color}` }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-              <span style={{ fontWeight: 700, fontSize: '0.85rem' }}>{stage.label}</span>
+              <span style={{ fontWeight: 700, fontSize: '0.85rem', color: 'var(--c-text)' }}>{stage.label}</span>
               <span style={{ background: `${stage.color}22`, border: `1px solid ${stage.color}55`, color: stage.color, borderRadius: 999, fontSize: '0.72rem', fontWeight: 700, padding: '2px 9px' }}>{stage.count}</span>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {stage.apps.map((app, j) => (
-                <div key={j} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 8, padding: '8px 12px', fontSize: '0.82rem', fontWeight: 500 }}>{app}</div>
+                <div key={j} style={{ background: 'var(--c-surface)', border: '1px solid var(--c-card-bdr)', borderRadius: 8, padding: '8px 12px', fontSize: '0.82rem', fontWeight: 500, color: 'var(--c-text)' }}>{app}</div>
               ))}
             </div>
           </div>
         ))}
       </div>
       <div style={{ textAlign: 'center', marginTop: 60 }}>
-        <p style={{ color: 'rgba(232,240,239,0.5)', marginBottom: 20 }}>Create your free account to start tracking your own applications.</p>
-        <button style={{ padding: '14px 32px', borderRadius: 12, background: '#52c4a8', color: '#080e0e', fontSize: '0.95rem', fontWeight: 700, border: 'none', cursor: 'pointer' }} onClick={() => window.location.href = '/admin?auth=signup'}>Start Tracking Free →</button>
+        <p style={{ color: 'var(--c-muted)', marginBottom: 20 }}>Create your free account to start tracking your own applications.</p>
+        <button style={{ padding: '14px 32px', borderRadius: 12, background: 'var(--c-teal)', color: '#ffffff', fontSize: '0.95rem', fontWeight: 700, border: 'none', cursor: 'pointer' }} onClick={() => window.location.href = '/admin?auth=signup'}>Start Tracking Free →</button>
       </div>
     </PageWrapper>
   );
 }
 
 /* ---- Career Resources ---- */
-export function CareerResourcesPage({ onBack }) {
+export function CareerResourcesPage({ onBack, theme, toggleTheme }) {
   const [activeTag, setActiveTag] = useState('All');
   const resources = [
     { icon: '📄', title: 'Resume Writing Guide', desc: 'Craft an ATS-friendly resume that gets past automated filters and impresses recruiters.', tag: 'Resume', time: '8 min read' },
@@ -219,22 +249,22 @@ export function CareerResourcesPage({ onBack }) {
   const tags = ['All', 'Resume', 'Networking', 'Strategy', 'Portfolio', 'Compensation', 'Career Growth'];
   const filtered = resources.filter(r => activeTag === 'All' || r.tag === activeTag);
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Platform" title="Career Resources" subtitle="Actionable guides, templates, and insights to help you land the internship." />
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 32 }}>
         {tags.map(t => (
-          <button key={t} onClick={() => setActiveTag(t)} style={{ padding: '8px 16px', borderRadius: 10, fontSize: '0.8rem', fontWeight: 600, border: '1px solid', borderColor: activeTag === t ? 'rgba(82,196,168,0.5)' : 'rgba(255,255,255,0.1)', background: activeTag === t ? 'rgba(82,196,168,0.15)' : 'rgba(255,255,255,0.04)', color: activeTag === t ? '#52c4a8' : 'rgba(232,240,239,0.6)', cursor: 'pointer', transition: 'all 0.2s' }}>{t}</button>
+          <button key={t} onClick={() => setActiveTag(t)} style={{ padding: '8px 16px', borderRadius: 10, fontSize: '0.8rem', fontWeight: 600, border: '1px solid', borderColor: activeTag === t ? 'var(--c-teal)' : 'var(--c-border)', background: activeTag === t ? 'var(--c-teal-dim)' : 'var(--c-surface)', color: activeTag === t ? 'var(--c-teal)' : 'var(--c-muted)', cursor: 'pointer', transition: 'all 0.2s' }}>{t}</button>
         ))}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
         {filtered.map((r, i) => (
           <Card key={i} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div style={{ fontSize: 28 }}>{r.icon}</div>
-            <div style={{ fontWeight: 700, fontSize: '1rem' }}>{r.title}</div>
-            <p style={{ color: 'rgba(232,240,239,0.55)', fontSize: '0.87rem', lineHeight: 1.6, margin: 0 }}>{r.desc}</p>
+            <div style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--c-text)' }}>{r.title}</div>
+            <p style={{ color: 'var(--c-muted)', fontSize: '0.87rem', lineHeight: 1.6, margin: 0 }}>{r.desc}</p>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' }}>
-              <span style={{ fontSize: '0.72rem', padding: '3px 10px', borderRadius: 999, background: 'rgba(82,196,168,0.1)', border: '1px solid rgba(82,196,168,0.2)', color: '#52c4a8' }}>{r.tag}</span>
-              <span style={{ fontSize: '0.75rem', color: 'rgba(232,240,239,0.4)' }}>{r.time}</span>
+              <span style={{ fontSize: '0.72rem', padding: '3px 10px', borderRadius: 999, background: 'var(--c-teal-dim)', border: '1px solid rgba(82,196,168,0.2)', color: 'var(--c-teal)' }}>{r.tag}</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--c-subtle)' }}>{r.time}</span>
             </div>
           </Card>
         ))}
@@ -244,7 +274,7 @@ export function CareerResourcesPage({ onBack }) {
 }
 
 /* ---- Interview Prep ---- */
-export function InterviewPrepPage({ onBack }) {
+export function InterviewPrepPage({ onBack, theme, toggleTheme }) {
   const [activeSection, setActiveSection] = useState('behavioral');
   const sections = {
     behavioral: { label: 'Behavioral', icon: '🗣️', questions: [
@@ -276,22 +306,22 @@ export function InterviewPrepPage({ onBack }) {
     { icon: '❓', title: 'Prepare Smart Questions', desc: 'Always ask 2-3 thoughtful questions. It signals curiosity and engagement.' },
   ];
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Platform" title="Interview Prep" subtitle="Master behavioral, technical, and company-specific interviews with curated question banks." />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16, marginBottom: 48 }}>
         {tips.map((t, i) => (
-          <Card key={i}><div style={{ fontSize: 24, marginBottom: 10 }}>{t.icon}</div><div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: 6 }}>{t.title}</div><p style={{ color: 'rgba(232,240,239,0.55)', fontSize: '0.84rem', lineHeight: 1.6, margin: 0 }}>{t.desc}</p></Card>
+          <Card key={i}><div style={{ fontSize: 24, marginBottom: 10 }}>{t.icon}</div><div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: 6, color: 'var(--c-text)' }}>{t.title}</div><p style={{ color: 'var(--c-muted)', fontSize: '0.84rem', lineHeight: 1.6, margin: 0 }}>{t.desc}</p></Card>
         ))}
       </div>
-      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 20 }}>Question Bank</h2>
+      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 20, color: 'var(--c-text)' }}>Question Bank</h2>
       <div style={{ display: 'flex', gap: 10, marginBottom: 24, flexWrap: 'wrap' }}>
         {Object.entries(sections).map(([key, val]) => (
-          <button key={key} onClick={() => setActiveSection(key)} style={{ padding: '10px 20px', borderRadius: 10, fontWeight: 600, fontSize: '0.85rem', border: '1px solid', borderColor: activeSection === key ? 'rgba(82,196,168,0.5)' : 'rgba(255,255,255,0.1)', background: activeSection === key ? 'rgba(82,196,168,0.15)' : 'rgba(255,255,255,0.04)', color: activeSection === key ? '#52c4a8' : 'rgba(232,240,239,0.7)', cursor: 'pointer', transition: 'all 0.2s' }}>{val.icon} {val.label}</button>
+          <button key={key} onClick={() => setActiveSection(key)} style={{ padding: '10px 20px', borderRadius: 10, fontWeight: 600, fontSize: '0.85rem', border: '1px solid', borderColor: activeSection === key ? 'var(--c-teal)' : 'var(--c-border)', background: activeSection === key ? 'var(--c-teal-dim)' : 'var(--c-surface)', color: activeSection === key ? 'var(--c-teal)' : 'var(--c-muted)', cursor: 'pointer', transition: 'all 0.2s' }}>{val.icon} {val.label}</button>
         ))}
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {sections[activeSection].questions.map((item, i) => (
-          <Card key={i}><div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: 8 }}>Q{i + 1}. {item.q}</div><div style={{ display: 'flex', gap: 8 }}><span style={{ color: '#52c4a8', fontSize: '0.75rem', flexShrink: 0 }}>💡 Hint:</span><span style={{ color: 'rgba(232,240,239,0.55)', fontSize: '0.85rem', lineHeight: 1.6 }}>{item.hint}</span></div></Card>
+          <Card key={i}><div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: 8, color: 'var(--c-text)' }}>Q{i + 1}. {item.q}</div><div style={{ display: 'flex', gap: 8 }}><span style={{ color: 'var(--c-teal)', fontSize: '0.75rem', flexShrink: 0 }}>💡 Hint:</span><span style={{ color: 'var(--c-muted)', fontSize: '0.85rem', lineHeight: 1.6 }}>{item.hint}</span></div></Card>
         ))}
       </div>
     </PageWrapper>
@@ -299,7 +329,7 @@ export function InterviewPrepPage({ onBack }) {
 }
 
 /* ---- About Us ---- */
-export function AboutUsPage({ onBack }) {
+export function AboutUsPage({ onBack, theme, toggleTheme }) {
   const team = [
     { name: 'Dev Adithya', role: 'Founder & CEO', emoji: '👨‍💻', bio: 'Full-stack engineer passionate about helping students navigate the internship landscape.' },
     { name: 'Priya Nair', role: 'Head of Product', emoji: '👩‍🎨', bio: 'Former Google PM. Obsessed with building products that feel magical to use.' },
@@ -313,43 +343,43 @@ export function AboutUsPage({ onBack }) {
     { year: '2025', title: 'Today', desc: 'Serving 100,000+ students globally. Trusted by top university career centers.' },
   ];
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Company" title="About InternTrack" subtitle="We started as students frustrated by the chaos of internship hunting. Now we're on a mission to make every student's job search smarter." />
-      <Card style={{ textAlign: 'center', padding: '48px 40px', marginBottom: 60, background: 'linear-gradient(135deg, rgba(82,196,168,0.08) 0%, rgba(255,255,255,0.03) 100%)', border: '1px solid rgba(82,196,168,0.2)' }}>
+      <Card style={{ textAlign: 'center', padding: '48px 40px', marginBottom: 60, background: 'var(--c-card-bg)', border: '1px solid var(--c-card-bdr)' }}>
         <div style={{ fontSize: '1.5rem', marginBottom: 16 }}>🌍</div>
-        <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16 }}>Our Mission</h2>
-        <p style={{ color: 'rgba(232,240,239,0.65)', fontSize: '1.05rem', lineHeight: 1.8, maxWidth: 560, margin: '0 auto' }}>To democratize career opportunities by giving every student the tools, insights, and community to land their dream internship.</p>
+        <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: 16, color: 'var(--c-text)' }}>Our Mission</h2>
+        <p style={{ color: 'var(--c-muted)', fontSize: '1.05rem', lineHeight: 1.8, maxWidth: 560, margin: '0 auto' }}>To democratize career opportunities by giving every student the tools, insights, and community to land their dream internship.</p>
       </Card>
-      <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 32, textAlign: 'center' }}>Our Journey</h2>
+      <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 32, textAlign: 'center', color: 'var(--c-text)' }}>Our Journey</h2>
       <div style={{ position: 'relative', marginBottom: 60 }}>
         <div style={{ position: 'absolute', left: '50%', top: 0, bottom: 0, width: 2, background: 'rgba(82,196,168,0.2)', transform: 'translateX(-50%)' }} />
         {milestones.map((m, i) => (
           <div key={i} style={{ display: 'flex', justifyContent: i % 2 === 0 ? 'flex-start' : 'flex-end', marginBottom: 32, position: 'relative' }}>
-            <div style={{ position: 'absolute', left: '50%', top: 20, width: 12, height: 12, borderRadius: '50%', background: '#52c4a8', transform: 'translateX(-50%)' }} />
+            <div style={{ position: 'absolute', left: '50%', top: 20, width: 12, height: 12, borderRadius: '50%', background: 'var(--c-teal)', transform: 'translateX(-50%)' }} />
             <Card style={{ width: '44%', marginRight: i % 2 === 0 ? '6%' : 0, marginLeft: i % 2 === 1 ? '6%' : 0 }}>
-              <div style={{ color: '#52c4a8', fontWeight: 800, fontSize: '0.85rem', marginBottom: 6 }}>{m.year}</div>
-              <div style={{ fontWeight: 700, marginBottom: 6 }}>{m.title}</div>
-              <p style={{ color: 'rgba(232,240,239,0.55)', fontSize: '0.85rem', lineHeight: 1.6, margin: 0 }}>{m.desc}</p>
+              <div style={{ color: 'var(--c-teal)', fontWeight: 800, fontSize: '0.85rem', marginBottom: 6 }}>{m.year}</div>
+              <div style={{ fontWeight: 700, marginBottom: 6, color: 'var(--c-text)' }}>{m.title}</div>
+              <p style={{ color: 'var(--c-muted)', fontSize: '0.85rem', lineHeight: 1.6, margin: 0 }}>{m.desc}</p>
             </Card>
           </div>
         ))}
       </div>
-      <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 32, textAlign: 'center' }}>Meet the Team</h2>
+      <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 32, textAlign: 'center', color: 'var(--c-text)' }}>Meet the Team</h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 20 }}>
         {team.map((t, i) => (
           <Card key={i} style={{ textAlign: 'center' }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>{t.emoji}</div>
-            <div style={{ fontWeight: 800, fontSize: '1rem', marginBottom: 4 }}>{t.name}</div>
-            <div style={{ color: '#52c4a8', fontSize: '0.78rem', fontWeight: 600, marginBottom: 10 }}>{t.role}</div>
-            <p style={{ color: 'rgba(232,240,239,0.55)', fontSize: '0.83rem', lineHeight: 1.6, margin: 0 }}>{t.bio}</p>
+            <div style={{ fontWeight: 800, fontSize: '1rem', marginBottom: 4, color: 'var(--c-text)' }}>{t.name}</div>
+            <div style={{ color: 'var(--c-teal)', fontSize: '0.78rem', fontWeight: 600, marginBottom: 10 }}>{t.role}</div>
+            <p style={{ color: 'var(--c-muted)', fontSize: '0.83rem', lineHeight: 1.6, margin: 0 }}>{t.bio}</p>
           </Card>
         ))}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginTop: 60 }}>
         {[{ value: '100K+', label: 'Students' }, { value: '140+', label: 'Universities' }, { value: '50K+', label: 'Apps Tracked' }, { value: '95%', label: 'Satisfaction' }].map((s, i) => (
-          <div key={i} style={{ textAlign: 'center', padding: '28px 20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14 }}>
-            <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#52c4a8' }}>{s.value}</div>
-            <div style={{ color: 'rgba(232,240,239,0.5)', fontSize: '0.82rem', marginTop: 6 }}>{s.label}</div>
+          <div key={i} style={{ textAlign: 'center', padding: '28px 20px', background: 'var(--c-card-bg)', border: '1px solid var(--c-card-bdr)', borderRadius: 14 }}>
+            <div style={{ fontSize: '2.2rem', fontWeight: 900, color: 'var(--c-teal)' }}>{s.value}</div>
+            <div style={{ color: 'var(--c-muted)', fontSize: '0.82rem', marginTop: 6 }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -358,7 +388,7 @@ export function AboutUsPage({ onBack }) {
 }
 
 /* ---- Blog ---- */
-export function BlogPage({ onBack }) {
+export function BlogPage({ onBack, theme, toggleTheme }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const posts = [
     { category: 'Career', title: 'The 2025 Internship Season: What Changed', excerpt: 'A deep dive into application trends, hiring timelines, and the roles that saw the most competition.', author: 'Dev Adithya', date: 'Jul 28, 2025', readTime: '7 min', emoji: '📅' },
@@ -371,23 +401,23 @@ export function BlogPage({ onBack }) {
   const categories = ['All', 'Career', 'Tips', 'Story', 'Industry'];
   const filtered = posts.filter(p => activeCategory === 'All' || p.category === activeCategory);
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Company" title="InternTrack Blog" subtitle="Insights, tips, and stories to help you navigate the internship journey." />
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 36 }}>
         {categories.map(c => (
-          <button key={c} onClick={() => setActiveCategory(c)} style={{ padding: '8px 18px', borderRadius: 10, fontSize: '0.82rem', fontWeight: 600, border: '1px solid', borderColor: activeCategory === c ? 'rgba(82,196,168,0.5)' : 'rgba(255,255,255,0.1)', background: activeCategory === c ? 'rgba(82,196,168,0.15)' : 'rgba(255,255,255,0.04)', color: activeCategory === c ? '#52c4a8' : 'rgba(232,240,239,0.6)', cursor: 'pointer', transition: 'all 0.2s' }}>{c}</button>
+          <button key={c} onClick={() => setActiveCategory(c)} style={{ padding: '8px 18px', borderRadius: 10, fontSize: '0.82rem', fontWeight: 600, border: '1px solid', borderColor: activeCategory === c ? 'var(--c-teal)' : 'var(--c-border)', background: activeCategory === c ? 'var(--c-teal-dim)' : 'var(--c-surface)', color: activeCategory === c ? 'var(--c-teal)' : 'var(--c-muted)', cursor: 'pointer', transition: 'all 0.2s' }}>{c}</button>
         ))}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 24 }}>
         {filtered.map((post, i) => (
           <Card key={i} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div style={{ fontSize: 32 }}>{post.emoji}</div>
-            <span style={{ fontSize: '0.7rem', padding: '3px 10px', borderRadius: 999, background: 'rgba(82,196,168,0.1)', border: '1px solid rgba(82,196,168,0.2)', color: '#52c4a8', alignSelf: 'flex-start' }}>{post.category}</span>
-            <h3 style={{ fontWeight: 800, fontSize: '1rem', lineHeight: 1.4, margin: 0 }}>{post.title}</h3>
-            <p style={{ color: 'rgba(232,240,239,0.55)', fontSize: '0.85rem', lineHeight: 1.6, margin: 0 }}>{post.excerpt}</p>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
-              <span style={{ fontSize: '0.78rem', color: 'rgba(232,240,239,0.5)' }}>{post.author} · {post.date}</span>
-              <span style={{ fontSize: '0.75rem', color: 'rgba(232,240,239,0.4)' }}>{post.readTime} read</span>
+            <span style={{ fontSize: '0.7rem', padding: '3px 10px', borderRadius: 999, background: 'var(--c-teal-dim)', border: '1px solid rgba(82,196,168,0.2)', color: 'var(--c-teal)', alignSelf: 'flex-start' }}>{post.category}</span>
+            <h3 style={{ fontWeight: 800, fontSize: '1rem', lineHeight: 1.4, margin: 0, color: 'var(--c-text)' }}>{post.title}</h3>
+            <p style={{ color: 'var(--c-muted)', fontSize: '0.85rem', lineHeight: 1.6, margin: 0 }}>{post.excerpt}</p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: 12, borderTop: '1px solid var(--c-border)' }}>
+              <span style={{ fontSize: '0.78rem', color: 'var(--c-muted)' }}>{post.author} · {post.date}</span>
+              <span style={{ fontSize: '0.75rem', color: 'var(--c-subtle)' }}>{post.readTime} read</span>
             </div>
           </Card>
         ))}
@@ -397,7 +427,7 @@ export function BlogPage({ onBack }) {
 }
 
 /* ---- Careers ---- */
-export function CareersPage({ onBack }) {
+export function CareersPage({ onBack, theme, toggleTheme }) {
   const jobs = [
     { title: 'Senior Full-Stack Engineer', dept: 'Engineering', location: 'Remote', type: 'Full-time' },
     { title: 'Product Designer', dept: 'Design', location: 'San Francisco, CA', type: 'Full-time' },
@@ -415,24 +445,24 @@ export function CareersPage({ onBack }) {
     { icon: '🎉', title: 'Annual Retreat', desc: 'All-company retreats twice a year to connect with the full team.' },
   ];
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Company" title="Join Our Team" subtitle="Help us build the internship platform we wish existed when we were students." />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 16, marginBottom: 60 }}>
         {perks.map((p, i) => (
           <Card key={i} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
             <div style={{ fontSize: 24, flexShrink: 0 }}>{p.icon}</div>
-            <div><div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: 6 }}>{p.title}</div><p style={{ color: 'rgba(232,240,239,0.55)', fontSize: '0.84rem', lineHeight: 1.6, margin: 0 }}>{p.desc}</p></div>
+            <div><div style={{ fontWeight: 700, fontSize: '0.95rem', marginBottom: 6, color: 'var(--c-text)' }}>{p.title}</div><p style={{ color: 'var(--c-muted)', fontSize: '0.84rem', lineHeight: 1.6, margin: 0 }}>{p.desc}</p></div>
           </Card>
         ))}
       </div>
-      <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 24 }}>Open Positions</h2>
+      <h2 style={{ fontSize: '1.3rem', fontWeight: 800, marginBottom: 24, color: 'var(--c-text)' }}>Open Positions</h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {jobs.map((job, i) => (
           <Card key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16, cursor: 'pointer' }}>
-            <div><div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>{job.title}</div><div style={{ color: 'rgba(232,240,239,0.5)', fontSize: '0.82rem' }}>{job.dept} · {job.location}</div></div>
+            <div><div style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 4, color: 'var(--c-text)' }}>{job.title}</div><div style={{ color: 'var(--c-muted)', fontSize: '0.82rem' }}>{job.dept} · {job.location}</div></div>
             <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-              <span style={{ fontSize: '0.75rem', padding: '4px 12px', borderRadius: 999, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(232,240,239,0.6)' }}>{job.type}</span>
-              <button style={{ padding: '8px 18px', borderRadius: 8, background: 'rgba(82,196,168,0.15)', border: '1px solid rgba(82,196,168,0.3)', color: '#52c4a8', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }}>Apply →</button>
+              <span style={{ fontSize: '0.75rem', padding: '4px 12px', borderRadius: 999, background: 'var(--c-surface)', border: '1px solid var(--c-border)', color: 'var(--c-muted)' }}>{job.type}</span>
+              <button style={{ padding: '8px 18px', borderRadius: 8, background: 'var(--c-teal-dim)', border: '1px solid rgba(82,196,168,0.3)', color: 'var(--c-teal)', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer' }}>Apply →</button>
             </div>
           </Card>
         ))}
@@ -442,7 +472,7 @@ export function CareersPage({ onBack }) {
 }
 
 /* ---- Press ---- */
-export function PressPage({ onBack }) {
+export function PressPage({ onBack, theme, toggleTheme }) {
   const coverage = [
     { outlet: 'TechCrunch', title: 'InternTrack Is Making Internship Hunting Less Miserable', date: 'July 2025', logo: '📰' },
     { outlet: 'Forbes', title: '30 Under 30: The Startup Helping 100K Students Land Their First Job', date: 'June 2025', logo: '🏆' },
@@ -451,38 +481,38 @@ export function PressPage({ onBack }) {
     { outlet: 'Business Insider', title: 'How InternTrack Became The Go-To App for CS Students', date: 'March 2025', logo: '💼' },
   ];
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Company" title="Press & Media" subtitle="InternTrack in the news. For media inquiries, press kits, and interview requests." />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 16, marginBottom: 60 }}>
         {[{ value: '100K+', label: 'Active Users' }, { value: '50+', label: 'Press Features' }, { value: '$2M+', label: 'Raised' }, { value: 'Y Combinator', label: 'Backed By' }].map((s, i) => (
-          <div key={i} style={{ textAlign: 'center', padding: '28px 20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14 }}>
-            <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#52c4a8' }}>{s.value}</div>
-            <div style={{ color: 'rgba(232,240,239,0.5)', fontSize: '0.8rem', marginTop: 6 }}>{s.label}</div>
+          <div key={i} style={{ textAlign: 'center', padding: '28px 20px', background: 'var(--c-card-bg)', border: '1px solid var(--c-card-bdr)', borderRadius: 14 }}>
+            <div style={{ fontSize: '1.8rem', fontWeight: 900, color: 'var(--c-teal)' }}>{s.value}</div>
+            <div style={{ color: 'var(--c-muted)', fontSize: '0.8rem', marginTop: 6 }}>{s.label}</div>
           </div>
         ))}
       </div>
-      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 24 }}>Recent Coverage</h2>
+      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 24, color: 'var(--c-text)' }}>Recent Coverage</h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginBottom: 60 }}>
         {coverage.map((item, i) => (
           <Card key={i} style={{ display: 'flex', alignItems: 'center', gap: 20, cursor: 'pointer' }}>
             <div style={{ fontSize: 32, flexShrink: 0 }}>{item.logo}</div>
-            <div style={{ flex: 1 }}><div style={{ color: '#52c4a8', fontWeight: 700, fontSize: '0.8rem', marginBottom: 6 }}>{item.outlet}</div><div style={{ fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.4 }}>{item.title}</div></div>
-            <div style={{ color: 'rgba(232,240,239,0.4)', fontSize: '0.8rem', flexShrink: 0 }}>{item.date}</div>
+            <div style={{ flex: 1 }}><div style={{ color: 'var(--c-teal)', fontWeight: 700, fontSize: '0.8rem', marginBottom: 6 }}>{item.outlet}</div><div style={{ fontWeight: 700, fontSize: '0.95rem', lineHeight: 1.4, color: 'var(--c-text)' }}>{item.title}</div></div>
+            <div style={{ color: 'var(--c-subtle)', fontSize: '0.8rem', flexShrink: 0 }}>{item.date}</div>
           </Card>
         ))}
       </div>
-      <Card style={{ textAlign: 'center', padding: '48px 40px', background: 'rgba(82,196,168,0.06)', border: '1px solid rgba(82,196,168,0.2)' }}>
+      <Card style={{ textAlign: 'center', padding: '48px 40px', background: 'var(--c-card-bg)', border: '1px solid var(--c-card-bdr)' }}>
         <div style={{ fontSize: 36, marginBottom: 16 }}>📦</div>
-        <h2 style={{ fontWeight: 800, marginBottom: 12 }}>Download Press Kit</h2>
-        <p style={{ color: 'rgba(232,240,239,0.55)', marginBottom: 24, fontSize: '0.9rem' }}>Logos, brand guidelines, product screenshots, and founder bios — everything you need.</p>
-        <button style={{ padding: '12px 28px', borderRadius: 10, background: '#52c4a8', color: '#080e0e', fontWeight: 700, border: 'none', cursor: 'pointer', fontSize: '0.9rem' }}>Download Press Kit →</button>
+        <h2 style={{ fontWeight: 800, marginBottom: 12, color: 'var(--c-text)' }}>Download Press Kit</h2>
+        <p style={{ color: 'var(--c-muted)', marginBottom: 24, fontSize: '0.9rem' }}>Logos, brand guidelines, product screenshots, and founder bios — everything you need.</p>
+        <button style={{ padding: '12px 28px', borderRadius: 10, background: 'var(--c-teal)', color: '#ffffff', fontWeight: 700, border: 'none', cursor: 'pointer', fontSize: '0.9rem' }}>Download Press Kit →</button>
       </Card>
     </PageWrapper>
   );
 }
 
 /* ---- Help Center ---- */
-export function HelpCenterPage({ onBack }) {
+export function HelpCenterPage({ onBack, theme, toggleTheme }) {
   const [search, setSearch] = useState('');
   const [openFaq, setOpenFaq] = useState(null);
   const faqs = [
@@ -503,42 +533,42 @@ export function HelpCenterPage({ onBack }) {
     { icon: '💳', title: 'Billing', desc: 'Free tier details, Pro plan features, and payment questions.' },
   ];
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Support" title="Help Center" subtitle="Find answers to common questions or get in touch with our support team." />
       <div style={{ maxWidth: 500, margin: '0 auto 48px', position: 'relative' }}>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(232,240,239,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)' }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--c-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)' }}>
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
-        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search help articles..." style={{ width: '100%', padding: '14px 16px 14px 50px', borderRadius: 12, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#e8f0ef', fontSize: '0.95rem', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
+        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search help articles..." style={{ width: '100%', padding: '14px 16px 14px 50px', borderRadius: 12, background: 'var(--c-surface)', border: '1px solid var(--c-border)', color: 'var(--c-text)', fontSize: '0.95rem', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16, marginBottom: 48 }}>
         {categories.map((c, i) => (
           <Card key={i} style={{ cursor: 'pointer', textAlign: 'center' }}>
             <div style={{ fontSize: 28, marginBottom: 10 }}>{c.icon}</div>
-            <div style={{ fontWeight: 700, marginBottom: 6 }}>{c.title}</div>
-            <p style={{ color: 'rgba(232,240,239,0.5)', fontSize: '0.82rem', margin: 0, lineHeight: 1.5 }}>{c.desc}</p>
+            <div style={{ fontWeight: 700, marginBottom: 6, color: 'var(--c-text)' }}>{c.title}</div>
+            <p style={{ color: 'var(--c-muted)', fontSize: '0.82rem', margin: 0, lineHeight: 1.5 }}>{c.desc}</p>
           </Card>
         ))}
       </div>
-      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 20 }}>{search ? `Results for "${search}"` : 'Frequently Asked Questions'}</h2>
+      <h2 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 20, color: 'var(--c-text)' }}>{search ? `Results for "${search}"` : 'Frequently Asked Questions'}</h2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {filtered.map((faq, i) => (
-          <div key={i} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid', borderColor: openFaq === i ? 'rgba(82,196,168,0.35)' : 'rgba(255,255,255,0.08)', borderRadius: 12, overflow: 'hidden', transition: 'border-color 0.2s' }}>
-            <button onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', background: 'none', border: 'none', cursor: 'pointer', color: '#e8f0ef', textAlign: 'left', gap: 16 }}>
+          <div key={i} style={{ background: 'var(--c-card-bg)', border: '1px solid', borderColor: openFaq === i ? 'var(--c-teal)' : 'var(--c-card-bdr)', borderRadius: 12, overflow: 'hidden', transition: 'border-color 0.2s' }}>
+            <button onClick={() => setOpenFaq(openFaq === i ? null : i)} style={{ width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 24px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--c-text)', textAlign: 'left', gap: 16 }}>
               <span style={{ fontWeight: 600, fontSize: '0.95rem' }}>{faq.q}</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#52c4a8" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}><polyline points="6 9 12 15 18 9"/></svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--c-teal)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }}><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            {openFaq === i && <div style={{ padding: '0 24px 20px', color: 'rgba(232,240,239,0.6)', fontSize: '0.88rem', lineHeight: 1.7 }}>{faq.a}</div>}
+            {openFaq === i && <div style={{ padding: '0 24px 20px', color: 'var(--c-muted)', fontSize: '0.88rem', lineHeight: 1.7 }}>{faq.a}</div>}
           </div>
         ))}
-        {filtered.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: 'rgba(232,240,239,0.4)' }}>No results found for "{search}"</div>}
+        {filtered.length === 0 && <div style={{ textAlign: 'center', padding: 40, color: 'var(--c-muted)' }}>No results found for "{search}"</div>}
       </div>
     </PageWrapper>
   );
 }
 
 /* ---- Privacy Policy ---- */
-export function PrivacyPolicyPage({ onBack }) {
+export function PrivacyPolicyPage({ onBack, theme, toggleTheme }) {
   const sections = [
     { title: '1. Information We Collect', content: 'We collect information you provide directly to us, such as when you create an account (name, email address), add applications (company names, roles, statuses), or contact our support team. We also automatically collect certain usage data including log data, device information, and cookies to improve our service.' },
     { title: '2. How We Use Your Information', content: 'We use the information we collect to provide, maintain, and improve our services; process transactions; send transactional and promotional communications; respond to your questions; and monitor usage patterns to enhance user experience. You can opt out of promotional emails at any time.' },
@@ -549,22 +579,22 @@ export function PrivacyPolicyPage({ onBack }) {
     { title: '7. Changes to This Policy', content: 'We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date. We encourage you to review this Privacy Policy periodically.' },
   ];
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Legal" title="Privacy Policy" subtitle="Last updated: August 1, 2025. We believe in radical transparency about how we handle your data." />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         {sections.map((s, i) => (
-          <Card key={i}><h3 style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 12, color: '#52c4a8' }}>{s.title}</h3><p style={{ color: 'rgba(232,240,239,0.65)', fontSize: '0.9rem', lineHeight: 1.8, margin: 0 }}>{s.content}</p></Card>
+          <Card key={i}><h3 style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 12, color: 'var(--c-teal)' }}>{s.title}</h3><p style={{ color: 'var(--c-muted)', fontSize: '0.9rem', lineHeight: 1.8, margin: 0 }}>{s.content}</p></Card>
         ))}
       </div>
-      <div style={{ marginTop: 40, padding: '24px 28px', background: 'rgba(82,196,168,0.06)', border: '1px solid rgba(82,196,168,0.2)', borderRadius: 14 }}>
-        <p style={{ color: 'rgba(232,240,239,0.6)', fontSize: '0.88rem', lineHeight: 1.7, margin: 0 }}>Questions? Contact us at <a href="mailto:privacy@interntrack.io" style={{ color: '#52c4a8' }}>privacy@interntrack.io</a></p>
+      <div style={{ marginTop: 40, padding: '24px 28px', background: 'var(--c-card-bg)', border: '1px solid var(--c-card-bdr)', borderRadius: 14 }}>
+        <p style={{ color: 'var(--c-muted)', fontSize: '0.88rem', lineHeight: 1.7, margin: 0 }}>Questions? Contact us at <a href="mailto:privacy@interntrack.io" style={{ color: 'var(--c-teal)' }}>privacy@interntrack.io</a></p>
       </div>
     </PageWrapper>
   );
 }
 
 /* ---- Terms of Service ---- */
-export function TermsOfServicePage({ onBack }) {
+export function TermsOfServicePage({ onBack, theme, toggleTheme }) {
   const sections = [
     { title: '1. Acceptance of Terms', content: 'By accessing and using InternTrack ("Service"), you accept and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our Service. These Terms apply to all users, visitors, and others who access or use the Service.' },
     { title: '2. Use of Service', content: 'You must be at least 13 years of age to use this Service. You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You agree to use the Service only for lawful purposes and in accordance with these Terms.' },
@@ -576,22 +606,22 @@ export function TermsOfServicePage({ onBack }) {
     { title: '8. Limitation of Liability', content: 'In no event shall InternTrack, its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential or punitive damages, including loss of profits, data, use, goodwill, or other intangible losses.' },
   ];
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Legal" title="Terms of Service" subtitle="Last updated: August 1, 2025. Please read these terms carefully before using InternTrack." />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         {sections.map((s, i) => (
-          <Card key={i}><h3 style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 12, color: '#52c4a8' }}>{s.title}</h3><p style={{ color: 'rgba(232,240,239,0.65)', fontSize: '0.9rem', lineHeight: 1.8, margin: 0 }}>{s.content}</p></Card>
+          <Card key={i}><h3 style={{ fontWeight: 700, fontSize: '1rem', marginBottom: 12, color: 'var(--c-teal)' }}>{s.title}</h3><p style={{ color: 'var(--c-muted)', fontSize: '0.9rem', lineHeight: 1.8, margin: 0 }}>{s.content}</p></Card>
         ))}
       </div>
-      <div style={{ marginTop: 40, padding: '24px 28px', background: 'rgba(82,196,168,0.06)', border: '1px solid rgba(82,196,168,0.2)', borderRadius: 14 }}>
-        <p style={{ color: 'rgba(232,240,239,0.6)', fontSize: '0.88rem', lineHeight: 1.7, margin: 0 }}>Questions? Contact us at <a href="mailto:legal@interntrack.io" style={{ color: '#52c4a8' }}>legal@interntrack.io</a></p>
+      <div style={{ marginTop: 40, padding: '24px 28px', background: 'var(--c-card-bg)', border: '1px solid var(--c-card-bdr)', borderRadius: 14 }}>
+        <p style={{ color: 'var(--c-muted)', fontSize: '0.88rem', lineHeight: 1.7, margin: 0 }}>Questions? Contact us at <a href="mailto:legal@interntrack.io" style={{ color: 'var(--c-teal)' }}>legal@interntrack.io</a></p>
       </div>
     </PageWrapper>
   );
 }
 
 /* ---- Contact Us ---- */
-export function ContactUsPage({ onBack }) {
+export function ContactUsPage({ onBack, theme, toggleTheme }) {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const handleSubmit = (e) => { e.preventDefault(); setSubmitted(true); };
@@ -602,30 +632,30 @@ export function ContactUsPage({ onBack }) {
     { icon: '💼', label: 'LinkedIn', value: 'InternTrack', link: '#' },
   ];
   return (
-    <PageWrapper onBack={onBack}>
+    <PageWrapper onBack={onBack} theme={theme} toggleTheme={toggleTheme}>
       <PageHero label="Support" title="Contact Us" subtitle="Have a question, idea, or issue? We typically respond within one business day." />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 40, alignItems: 'start' }}>
         <div>
           {submitted ? (
             <Card style={{ textAlign: 'center', padding: '48px 32px' }}>
               <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
-              <h3 style={{ fontWeight: 800, fontSize: '1.2rem', marginBottom: 12 }}>Message Sent!</h3>
-              <p style={{ color: 'rgba(232,240,239,0.6)', fontSize: '0.9rem', lineHeight: 1.7 }}>We will get back to you within 1 business day.</p>
-              <button onClick={() => setSubmitted(false)} style={{ marginTop: 20, padding: '10px 24px', borderRadius: 10, background: 'rgba(82,196,168,0.15)', border: '1px solid rgba(82,196,168,0.3)', color: '#52c4a8', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Send Another</button>
+              <h3 style={{ fontWeight: 800, fontSize: '1.2rem', marginBottom: 12, color: 'var(--c-text)' }}>Message Sent!</h3>
+              <p style={{ color: 'var(--c-muted)', fontSize: '0.9rem', lineHeight: 1.7 }}>We will get back to you within 1 business day.</p>
+              <button onClick={() => setSubmitted(false)} style={{ marginTop: 20, padding: '10px 24px', borderRadius: 10, background: 'var(--c-teal-dim)', border: '1px solid rgba(82,196,168,0.3)', color: 'var(--c-teal)', fontWeight: 600, cursor: 'pointer', fontSize: '0.85rem' }}>Send Another</button>
             </Card>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
               {[{ key: 'name', label: 'Full Name', type: 'text', placeholder: 'Your name' }, { key: 'email', label: 'Email Address', type: 'email', placeholder: 'you@example.com' }, { key: 'subject', label: 'Subject', type: 'text', placeholder: 'How can we help?' }].map(field => (
                 <div key={field.key}>
-                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: 8, color: 'rgba(232,240,239,0.7)' }}>{field.label}</label>
-                  <input required type={field.type} placeholder={field.placeholder} value={form[field.key]} onChange={e => setForm(f => ({ ...f, [field.key]: e.target.value }))} style={{ width: '100%', padding: '11px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#e8f0ef', fontSize: '0.9rem', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
+                  <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: 8, color: 'var(--c-text)' }}>{field.label}</label>
+                  <input required type={field.type} placeholder={field.placeholder} value={form[field.key]} onChange={e => setForm(f => ({ ...f, [field.key]: e.target.value }))} style={{ width: '100%', padding: '11px 14px', borderRadius: 10, background: 'var(--c-surface)', border: '1px solid var(--c-border)', color: 'var(--c-text)', fontSize: '0.9rem', outline: 'none', fontFamily: 'inherit', boxSizing: 'border-box' }} />
                 </div>
               ))}
               <div>
-                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: 8, color: 'rgba(232,240,239,0.7)' }}>Message</label>
-                <textarea required rows={5} placeholder="Tell us more..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} style={{ width: '100%', padding: '11px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#e8f0ef', fontSize: '0.9rem', outline: 'none', fontFamily: 'inherit', resize: 'vertical', minHeight: 120, boxSizing: 'border-box' }} />
+                <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 600, marginBottom: 8, color: 'var(--c-text)' }}>Message</label>
+                <textarea required rows={5} placeholder="Tell us more..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} style={{ width: '100%', padding: '11px 14px', borderRadius: 10, background: 'var(--c-surface)', border: '1px solid var(--c-border)', color: 'var(--c-text)', fontSize: '0.9rem', outline: 'none', fontFamily: 'inherit', resize: 'vertical', minHeight: 120, boxSizing: 'border-box' }} />
               </div>
-              <button type="submit" style={{ padding: '13px', borderRadius: 10, background: '#52c4a8', color: '#080e0e', fontWeight: 700, border: 'none', cursor: 'pointer', fontSize: '0.95rem' }}>Send Message →</button>
+              <button type="submit" style={{ padding: '13px', borderRadius: 10, background: 'var(--c-teal)', color: '#ffffff', fontWeight: 700, border: 'none', cursor: 'pointer', fontSize: '0.95rem' }}>Send Message →</button>
             </form>
           )}
         </div>
@@ -634,13 +664,13 @@ export function ContactUsPage({ onBack }) {
             <a key={i} href={info.link} style={{ textDecoration: 'none' }}>
               <Card style={{ display: 'flex', alignItems: 'center', gap: 16, cursor: 'pointer' }}>
                 <div style={{ fontSize: 24 }}>{info.icon}</div>
-                <div><div style={{ color: '#52c4a8', fontSize: '0.75rem', fontWeight: 700, marginBottom: 4 }}>{info.label}</div><div style={{ fontWeight: 600, fontSize: '0.9rem' }}>{info.value}</div></div>
+                <div><div style={{ color: 'var(--c-teal)', fontSize: '0.75rem', fontWeight: 700, marginBottom: 4 }}>{info.label}</div><div style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--c-text)' }}>{info.value}</div></div>
               </Card>
             </a>
           ))}
-          <Card style={{ marginTop: 8, background: 'rgba(82,196,168,0.06)', border: '1px solid rgba(82,196,168,0.2)' }}>
-            <div style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: 8 }}>Response Time</div>
-            <p style={{ color: 'rgba(232,240,239,0.6)', fontSize: '0.84rem', lineHeight: 1.7, margin: 0 }}>We respond to all inquiries within <strong style={{ color: '#52c4a8' }}>1 business day</strong>. For urgent issues, mark subject with <strong style={{ color: '#52c4a8' }}>[URGENT]</strong>.</p>
+          <Card style={{ marginTop: 8, background: 'var(--c-card-bg)', border: '1px solid var(--c-card-bdr)' }}>
+            <div style={{ fontSize: '0.85rem', fontWeight: 700, marginBottom: 8, color: 'var(--c-text)' }}>Response Time</div>
+            <p style={{ color: 'var(--c-muted)', fontSize: '0.84rem', lineHeight: 1.7, margin: 0 }}>We respond to all inquiries within <strong style={{ color: 'var(--c-teal)' }}>1 business day</strong>. For urgent issues, mark subject with <strong style={{ color: 'var(--c-teal)' }}>[URGENT]</strong>.</p>
           </Card>
         </div>
       </div>
@@ -649,7 +679,7 @@ export function ContactUsPage({ onBack }) {
 }
 
 /* ---- Router ---- */
-export function ClientSubPage({ page, onBack }) {
+export function ClientSubPage({ page, onBack, theme, toggleTheme }) {
   const map = {
     'browse-internships':  BrowseInternshipsPage,
     'track-applications':  TrackApplicationsPage,
@@ -666,5 +696,5 @@ export function ClientSubPage({ page, onBack }) {
   };
   const Component = map[page];
   if (!Component) return null;
-  return <Component onBack={onBack} />;
+  return <Component onBack={onBack} theme={theme} toggleTheme={toggleTheme} />;
 }

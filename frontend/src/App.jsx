@@ -331,6 +331,8 @@ function App() {
         onSaveProfile={handleUpdateProfile}
         onBackToApp={() => setCurrentPage("dashboard")}
         showToast={showToast}
+        theme={theme}
+        toggleTheme={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
       />
     );
   }
