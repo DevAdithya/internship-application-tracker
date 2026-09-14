@@ -52,8 +52,7 @@ export default function Navbar({
           </div>
           <div>
             <div className="logo-title-row">
-              <span className="logo-title">InternTrack</span>
-              <span className="logo-badge">PRO</span>
+              <span className="logo-title">Intern<span style={{ color: '#52c4a8' }}>Track</span></span>
             </div>
             <span className="logo-sub">Full-Stack Application Platform</span>
           </div>

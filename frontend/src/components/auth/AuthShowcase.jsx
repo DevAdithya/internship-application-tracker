@@ -16,10 +16,7 @@ export default function AuthShowcase() {
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-bold text-lg text-[var(--text-main)] tracking-tight">InternTrack</span>
-            <span className="px-1.5 py-0.5 text-[9px] font-extrabold uppercase bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded">
-              PRO
-            </span>
+            <span className="font-bold text-lg text-[var(--text-main)] tracking-tight">Intern<span style={{ color: '#52c4a8' }}>Track</span></span>
           </div>
           <p className="text-xs text-[var(--text-muted)]">Enterprise Application Pipeline Platform</p>
         </div>

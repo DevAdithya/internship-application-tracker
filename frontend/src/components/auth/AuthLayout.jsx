@@ -121,7 +121,7 @@ export default function AuthLayout({
 
       {/* Footer */}
       <footer className="relative z-20 py-4 text-center text-xs text-[var(--text-subtle)]">
-        © 2026 InternTrack PRO • Enterprise Application Tracking Platform
+        © 2026 InternTrack • Enterprise Application Tracking Platform
       </footer>
     </div>
   );

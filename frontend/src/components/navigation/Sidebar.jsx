@@ -32,10 +32,9 @@ export default function Sidebar({
         {!isCollapsed && (
           <div className="sidebar-brand-text">
             <div className="sidebar-brand-name">
-              InternTrack
-              <span className="sidebar-brand-tag">PRO</span>
+              Intern<span>Track</span>
             </div>
-            <div className="sidebar-brand-sub">Enterprise Pipeline</div>
+            <div className="sidebar-brand-sub">Application Platform</div>
           </div>
         )}
       </div>
